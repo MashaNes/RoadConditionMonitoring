@@ -27,6 +27,7 @@ namespace AcquisitionGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITempFService, TempFService>();
             services.AddTransient<IAirQualityService, AirQualityService>();
             services.AddControllers();
