@@ -3,7 +3,7 @@
  In that directory a "Docker images" subdirectory should be created, with the following structure:  
  "Docker images"  
  {  
-	> python-sensor-air  
+	&ensp;python-sensor-air  
 	{  
 		// Contents of the "Sensor devices/Air quality sensor" folder from the repository plus a "air-quality-nis.csv" file containing data with the following format:  
 			Sensor name, Latitude, Longitude, CO (mg/m^3), Non Metanic HydroCarbons (microg/m^3), Benzene (microg/m^3), NOx (ppb), NO2 (microg/m^3), Relative Humidity (%)  
