@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  temperaturemicroservice:
+    image: ${DOCKER_REGISTRY-}temperaturemicroservice
+    build:
+      context: .
+      dockerfile: TemperatureMicroservice/Dockerfile
+    ports: 
+      - "49160:80"
+  cassandra:
+    image: cassandra
+    ports:
+      - "9160:9160"
+      - "9043:9042"

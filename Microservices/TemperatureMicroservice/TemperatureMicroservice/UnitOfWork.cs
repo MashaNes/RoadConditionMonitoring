@@ -16,7 +16,7 @@ namespace TemperatureMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("192.168.0.26").WithPort(9042).Build(); //.WithPort(9042)
+                    Cluster cluster = Cluster.Builder().AddContactPoint("192.168.0.26").WithPort(9043).Build();
                     this._cassandraSession = cluster.Connect("temperature_data");
                 }
 

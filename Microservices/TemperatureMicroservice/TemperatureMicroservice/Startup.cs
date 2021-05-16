@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TemperatureMicroservice.Contracts;
+using TemperatureMicroservice.Services;
 
 namespace TemperatureMicroservice
 {
@@ -27,6 +28,7 @@ namespace TemperatureMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ITempService, TempService>();
             services.AddControllers();
             services.AddCors(options =>
             {
