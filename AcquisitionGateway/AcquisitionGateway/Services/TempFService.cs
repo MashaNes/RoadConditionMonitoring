@@ -9,15 +9,10 @@ using System.Text.Json;
 
 namespace AcquisitionGateway.Services
 {
-    public class TempFService : ITempFService
+    public class TempFService : KafkaService, ITempFService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private Dictionary<string, int> Retries = new Dictionary<string, int>();
-
-        public TempFService(IUnitOfWork unitOfWork)
-        {
-            this._unitOfWork = unitOfWork;
-        }
+        public TempFService(IUnitOfWork unitOfWork) : base(unitOfWork, "Temperature")
+        { }
 
         public async Task<bool> AddData(RoadAndAirTempData newData)
         {
@@ -25,7 +20,7 @@ namespace AcquisitionGateway.Services
             newData.RoadTemperature = convertTempFtoC(newData.RoadTemperature);
 
             string SerializedData = JsonSerializer.Serialize(newData);
-            _unitOfWork.KafkaProducer.Produce("Temperature", new Message<Null, string> { Value = SerializedData }, handler);
+            Produce(SerializedData);
 
             return true;
         }
@@ -33,30 +28,6 @@ namespace AcquisitionGateway.Services
         private double convertTempFtoC(double tempInF)
         {
             return (tempInF - 32) / (double)1.8;
-        }
-
-        private void handler(DeliveryReport<Null, string> report)
-        {
-            if (report.Error.IsError == true)
-            {
-                if (!Retries.ContainsKey(report.Message.Value))
-                {
-                    Retries.Add(report.Message.Value, 1);
-                    _unitOfWork.KafkaProducer.Produce("Temperature", report.Message, handler);
-                }
-                else
-                {
-                    int NumRetries = Retries[report.Message.Value];
-                    Retries.Remove(report.Message.Value);
-                    if (NumRetries < 10)
-                    {
-                        Retries.Add(report.Message.Value, NumRetries + 1);
-                        _unitOfWork.KafkaProducer.Produce("Temperature", report.Message, handler);
-                    }
-                }
-            }
-            else if (Retries.ContainsKey(report.Message.Value))
-                Retries.Remove(report.Message.Value);
         }
     }
 }
