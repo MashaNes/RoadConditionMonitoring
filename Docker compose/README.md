@@ -1,5 +1,5 @@
 # Docker compose
- "docker-compose.yml" file should be placed in a directory above the cloned repository.
+ "docker-compose.yml" file should be placed in a directory above the cloned repository.\n
  In that directory a "Docker images" subdirectory should be created, with the following structure:
  "Docker images"
  {
@@ -18,8 +18,7 @@
 		python-sensor-temp-5,
 		python-sensor-temp-6,
 		python-sensor-temp-7,
-		python-sensor-temp-8
-		
+		python-sensor-temp-8		
 		// Each subfolder should contain the contents of the "Sensor devices/Temperature sensor" folder from the repository plus a"road-weather-information-station.csv" file with the following format:
 			StationName, StationLocation, DateTime, RecordId, RoadSurfaceTemperature, AirTemperature
 		// Dataset used: https://www.kaggle.com/city-of-seattle/seattle-road-weather-information-stations
