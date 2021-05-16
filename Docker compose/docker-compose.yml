@@ -24,7 +24,7 @@ services:
   acquisitiongateway:
     image: ${DOCKER_REGISTRY-}acquisitiongateway
     build:
-      context: RoadConditionMonitoring/AcquisitionGateway
+      context: RoadConditionMonitoring/Microservices/AcquisitionGateway
       dockerfile: AcquisitionGateway/Dockerfile
     ports: 
       - "49158:80"
