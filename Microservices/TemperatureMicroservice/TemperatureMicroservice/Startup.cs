@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TemperatureMicroservice.Contracts;
 
 namespace TemperatureMicroservice
 {
@@ -25,11 +26,23 @@ namespace TemperatureMicroservice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORS", builder =>
+                {
+                    builder.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed((host) => true).AllowCredentials();
+                });
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TemperatureMicroservice", Version = "v1" });
+            });
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
         }
 
@@ -44,6 +57,8 @@ namespace TemperatureMicroservice
             }
 
             app.UseRouting();
+
+            app.UseCors("CORS");
 
             app.UseAuthorization();
 
