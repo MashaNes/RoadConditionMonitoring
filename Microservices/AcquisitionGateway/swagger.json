@@ -1,0 +1,166 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "AcquisitionGateway",
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:49158"
+  } ],
+  "paths" : {
+    "/api/air_quality/add-data" : {
+      "post" : {
+        "tags" : [ "AirQuality" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AirQualityData"
+              }
+            },
+            "text/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AirQualityData"
+              }
+            },
+            "application/*+json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AirQualityData"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        },
+        "servers" : [ {
+          "url" : "http://localhost:49158"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://localhost:49158"
+      } ]
+    },
+    "/api/road_air_temp_F/add-data" : {
+      "post" : {
+        "tags" : [ "TemperatureF" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RoadAndAirTempData"
+              }
+            },
+            "text/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RoadAndAirTempData"
+              }
+            },
+            "application/*+json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RoadAndAirTempData"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        },
+        "servers" : [ {
+          "url" : "http://localhost:49158"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://localhost:49158"
+      } ]
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AirQualityData" : {
+        "type" : "object",
+        "properties" : {
+          "StationName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "Latitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "Longitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "Timestamp" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "CO" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "NMHC" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "Benzene" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "NOx" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "NO2" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "RelativeHumidity" : {
+            "type" : "number",
+            "format" : "double"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "RoadAndAirTempData" : {
+        "type" : "object",
+        "properties" : {
+          "RecordId" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "StationName" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "Latitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "Longitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "Timestamp" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "AirTemperature" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "RoadTemperature" : {
+            "type" : "number",
+            "format" : "double"
+          }
+        },
+        "additionalProperties" : false
+      }
+    }
+  }
+}
