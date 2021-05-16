@@ -3,25 +3,25 @@
  In that directory a "Docker images" subdirectory should be created, with the following structure:  
  "Docker images"  
  {  
-	&ensp;python-sensor-air  
-	{  
-		// Contents of the "Sensor devices/Air quality sensor" folder from the repository plus a "air-quality-nis.csv" file containing data with the following format:  
-			Sensor name, Latitude, Longitude, CO (mg/m^3), Non Metanic HydroCarbons (microg/m^3), Benzene (microg/m^3), NOx (ppb), NO2 (microg/m^3), Relative Humidity (%)  
-		// Dataset used (and adapted): https://www.kaggle.com/shrutibhargava94/india-air-quality-data  
-	{,  
-	python-sensor-temp  
-	{  
-		python-sensor-temp-1,  
-		python-sensor-temp-2,  
-		python-sensor-temp-3,  
-		python-sensor-temp-4,  
-		python-sensor-temp-5,  
-		python-sensor-temp-6,  
-		python-sensor-temp-7,  
-		python-sensor-temp-8  	  
-		// Each subfolder should contain the contents of the "Sensor devices/Temperature sensor" folder from the repository plus a"road-weather-information-station.csv" file with the following format:  
-			StationName, StationLocation, DateTime, RecordId, RoadSurfaceTemperature, AirTemperature  
-		// Dataset used: https://www.kaggle.com/city-of-seattle/seattle-road-weather-information-stations  
-	}  
+	&ensp;&ensp;&ensp;python-sensor-air  
+	&ensp;&ensp;&ensp;{  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Contents of the "Sensor devices/Air quality sensor" folder from the repository plus a "air-quality-nis.csv" file containing data with the following format:  
+			&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Sensor name, Latitude, Longitude, CO (mg/m^3), Non Metanic HydroCarbons (microg/m^3), Benzene (microg/m^3), NOx (ppb), NO2 (microg/m^3), Relative Humidity (%)  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Dataset used (and adapted): https://www.kaggle.com/shrutibhargava94/india-air-quality-data  
+	&ensp;&ensp;&ensp;{,  
+	&ensp;&ensp;&ensp;python-sensor-temp  
+	&ensp;&ensp;&ensp;{  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-1,  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-2,  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-3,  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-4,  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-5,  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-6,  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-7,  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-8  	  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Each subfolder should contain the contents of the "Sensor devices/Temperature sensor" folder from the repository plus a"road-weather-information-station.csv" file with the following format:  
+			&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;StationName, StationLocation, DateTime, RecordId, RoadSurfaceTemperature, AirTemperature  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Dataset used: https://www.kaggle.com/city-of-seattle/seattle-road-weather-information-stations  
+	&ensp;&ensp;&ensp;}  
  }  
  
