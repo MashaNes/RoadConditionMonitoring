@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace TemperatureMicroservice.Contracts
 {
-    public interface IDateService
+    public interface ILocation
     {
-        String ConvertDateToString(DateTime date);
+        double Latitude { get; }
+        double Longitude { get; }
     }
 }

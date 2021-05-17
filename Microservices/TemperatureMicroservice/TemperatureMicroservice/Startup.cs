@@ -29,6 +29,8 @@ namespace TemperatureMicroservice
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITempService, TempService>();
+            services.AddTransient<IDateService, DateService>();
+            services.AddTransient<ICassandraService, CassandraService>();
             services.AddControllers();
             services.AddCors(options =>
             {

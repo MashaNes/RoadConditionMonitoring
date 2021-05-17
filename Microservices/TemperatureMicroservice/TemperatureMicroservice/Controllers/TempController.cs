@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TemperatureMicroservice.Contracts;
 using TemperatureMicroservice.Entities;
+using TemperatureMicroservice.DTOs;
 
 namespace TemperatureMicroservice.Controllers
 {
@@ -29,10 +30,10 @@ namespace TemperatureMicroservice.Controllers
         }
 
         [HttpGet]
-        [Route("get-data")]
-        public async Task<ActionResult> GetData()
+        [Route("get-newest-data")]
+        public async Task<ActionResult> GetNewestData()
         {
-            List<RoadAndAirTempData> retVal = await _tempService.GetAllData();
+            List<RoadAndAirTempData> retVal = await _tempService.GetAllNewest();
             return Ok(retVal);
         }
 
@@ -44,30 +45,36 @@ namespace TemperatureMicroservice.Controllers
             return Ok(retVal);
         }
 
-        [HttpGet]
-        [Route("get-data-station/{StationName}/{Newest}")]
-        public async Task<ActionResult> GetDataStation(String StationName, bool Newest)
-        {
-            List<RoadAndAirTempData> retVal = await _tempService.GetDataByStationName(StationName, Newest);
-            return Ok(retVal);
-        }
-
-        /*[HttpPost]
+        [HttpPost]
         [Route("get-data-timeframe")]
         public async Task<ActionResult> GetDataTimeframe([FromBody] TimeframeDTO timeframe)
         {
-            List<RoadAndAirTempData> retVal = await _tempService.GetDataByTimestamp(timeframe.StationName, timeframe.ReferentTime, timeframe.TimeframeSeconds);
-            return Ok(retVal);
-        }*/
-
-        /*
-        [HttpPost]
-        [Route("get-data-location")]
-        public async Task<ActionResult> GetDataLocation([FromBody] LocationRadiusDTO locationRadius)
-        {
-            List<RoadAndAirTempData> retVal = await _tempService.GetDataLocation(locationRadius);
+            List<RoadAndAirTempData> retVal = await _tempService.GetDataByTimeframe(timeframe.ReferentTime, timeframe.Seconds);
             return Ok(retVal);
         }
-         */
+
+        [HttpPost]
+        [Route("get-data-location/{newest}")]
+        public async Task<ActionResult> GetDataLocation([FromBody] LocationRadiusDTO locationRadius, bool newest)
+        {
+            List<RoadAndAirTempData> retVal = await _tempService.GetDataLocation(locationRadius, newest);
+            return Ok(retVal);
+        }
+
+        [HttpPost]
+        [Route("get-data-location-timeframe")]
+        public async Task<ActionResult> GetDataLocationTimeframe([FromBody] LocationTimeDTO locationTime)
+        {
+            List<RoadAndAirTempData> retVal = await _tempService.GetDataTimeframeLocation(locationTime);
+            return Ok(retVal);
+        }
+
+        [HttpPost]
+        [Route("get-data-average")]
+        public async Task<ActionResult> GetAverageData([FromBody] AverageDTO average)
+        {
+            List<AverageTempData> retVal = await _tempService.GetAverageData(average);
+            return Ok(retVal);
+        }
     }
 }

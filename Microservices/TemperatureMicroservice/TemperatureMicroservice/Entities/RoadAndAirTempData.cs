@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TemperatureMicroservice.Contracts;
 
 namespace TemperatureMicroservice.Entities
 {
-    public class RoadAndAirTempData
+    public class RoadAndAirTempData : ILocation
     {
         public int RecordId { get; set; }
         public String StationName { get; set; }
