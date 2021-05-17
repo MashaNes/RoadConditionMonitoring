@@ -85,13 +85,6 @@ namespace TemperatureMicroservice.Services
             return data.Select(instance => _cassandraService.ConvertCassandraTempRow(instance)).ToList();
         }
 
-        public async Task<RoadAndAirTempData> GetDataByRecordId(int recordId)
-        {
-            Row result = _unitOfWork.CassandraSession.Execute("select * from all_temperatures where \"RecordId\"=" + recordId + " ALLOW FILTERING").FirstOrDefault();
-
-            return _cassandraService.ConvertCassandraTempRow(result);
-        }
-
         public async Task<List<RoadAndAirTempData>> GetDataByTimeframe(DateTime time, int seconds)
         {
             DateTime low = time.AddSeconds(-seconds);

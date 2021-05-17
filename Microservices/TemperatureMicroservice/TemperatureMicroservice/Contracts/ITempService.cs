@@ -11,7 +11,6 @@ namespace TemperatureMicroservice.Contracts
     {
         Task<bool> AddData(RoadAndAirTempData newData);
         Task<List<RoadAndAirTempData>> GetAllNewest();
-        Task<RoadAndAirTempData> GetDataByRecordId(int recordId);
         Task<List<RoadAndAirTempData>> GetDataByTimeframe(DateTime time, int seconds);
         Task<List<RoadAndAirTempData>> GetDataLocation(LocationRadiusDTO locationInfo, bool newest);
         Task<List<RoadAndAirTempData>> GetDataTimeframeLocation(LocationTimeDTO info);

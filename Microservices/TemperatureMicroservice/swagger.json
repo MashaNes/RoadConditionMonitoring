@@ -48,29 +48,6 @@
         }
       }
     },
-    "/api/temp_microservice/get-data-recordId/{RecordId}": {
-      "get": {
-        "tags": [
-          "Temp"
-        ],
-        "parameters": [
-          {
-            "name": "RecordId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/temp_microservice/get-data-timeframe": {
       "post": {
         "tags": [

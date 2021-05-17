@@ -37,14 +37,6 @@ namespace TemperatureMicroservice.Controllers
             return Ok(retVal);
         }
 
-        [HttpGet]
-        [Route("get-data-recordId/{RecordId}")]
-        public async Task<ActionResult> GetData(int RecordId)
-        {
-            RoadAndAirTempData retVal = await _tempService.GetDataByRecordId(RecordId);
-            return Ok(retVal);
-        }
-
         [HttpPost]
         [Route("get-data-timeframe")]
         public async Task<ActionResult> GetDataTimeframe([FromBody] TimeframeDTO timeframe)
