@@ -24,11 +24,11 @@ namespace TemperatureMicroservice.Services
 
         public async Task<bool> AddData(RoadAndAirTempData newData)
         {
-            _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery("all_temperatures", newData));
+            _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TableAllData, newData));
 
             bool found = false;
 
-            var DataNewest = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery("newest_temperatures"));
+            var DataNewest = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(_unitOfWork.TableNewestData));
             foreach (var instance in DataNewest)
             {
                 RoadAndAirTempData roadData = _cassandraService.ConvertCassandraTempRow(instance);
@@ -36,17 +36,17 @@ namespace TemperatureMicroservice.Services
                 {
                     found = true;
                     if (newData.Timestamp > roadData.Timestamp)
-                        _unitOfWork.CassandraSession.Execute(_cassandraService.UpdateNewestQuery("newest_temperatures", newData, roadData.Latitude, roadData.Longitude));
+                        _unitOfWork.CassandraSession.Execute(_cassandraService.UpdateNewestQuery(_unitOfWork.TableNewestData, newData, roadData.Latitude, roadData.Longitude));
                 }
             }
             if (!found)
-                _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery("newest_temperatures", newData));
+                _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TableNewestData, newData));
 
             newData.Timestamp = new DateTime(newData.Timestamp.Year, newData.Timestamp.Month, newData.Timestamp.Day).AddHours(newData.Timestamp.Hour);
-            UpdateAverage("average_per_h", newData);
+            UpdateAverage(_unitOfWork.TableAverageH, newData);
 
             newData.Timestamp = new DateTime(newData.Timestamp.Year, newData.Timestamp.Month, newData.Timestamp.Day);
-            UpdateAverage("average_per_day", newData);
+            UpdateAverage(_unitOfWork.TableAverageDay, newData);
 
             return true;
         }
@@ -81,7 +81,7 @@ namespace TemperatureMicroservice.Services
 
         public async Task<List<RoadAndAirTempData>> GetAllNewest()
         {
-            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery("newest_temperatures"));
+            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(_unitOfWork.TableNewestData));
             return data.Select(instance => _cassandraService.ConvertCassandraTempRow(instance)).ToList();
         }
 
@@ -90,13 +90,13 @@ namespace TemperatureMicroservice.Services
             DateTime low = time.AddSeconds(-seconds);
             DateTime high = time.AddSeconds(seconds);
 
-            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectTimeframeQuery("all_temperatures", low, high));
+            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectTimeframeQuery(_unitOfWork.TableAllData, low, high));
             return data.Select(instance => _cassandraService.ConvertCassandraTempRow(instance)).ToList();
         }
 
         public async Task<List<RoadAndAirTempData>> GetDataLocation(LocationRadiusDTO locationInfo, bool newest)
         {
-            string table = newest ? "newest_temperatures" : "all_temperatures";
+            string table = newest ? _unitOfWork.TableNewestData : _unitOfWork.TableAllData;
             var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(table));
             return FilterByLocation(locationInfo, data.Select(instance => _cassandraService.ConvertCassandraTempRow(instance)).ToList());
         }
@@ -106,13 +106,13 @@ namespace TemperatureMicroservice.Services
             DateTime low = info.ReferenceTime.AddSeconds(-info.Seconds);
             DateTime high = info.ReferenceTime.AddSeconds(info.Seconds);
 
-            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectTimeframeQuery("all_temperatures", low, high));
+            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectTimeframeQuery(_unitOfWork.TableAllData, low, high));
             return FilterByLocation<RoadAndAirTempData>(new LocationRadiusDTO(info), data.Select(instance => _cassandraService.ConvertCassandraTempRow(instance)).ToList());
         }
 
         public async Task<List<AverageTempData>> GetAverageData(AverageDTO info)
         {
-            string table = info.PerHour ? "average_per_h" : "average_per_day";
+            string table = info.PerHour ? _unitOfWork.TableAverageH : _unitOfWork.TableAverageDay;
             var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectByTimestampQuery(table, info.Timestamp));
             List<AverageTempData> retList = data.Select(instance => _cassandraService.ConvertCassandraAverageRow(instance)).ToList();
             if (info.LocationInfo is null)

@@ -9,5 +9,9 @@ namespace TemperatureMicroservice.Contracts
     public interface IUnitOfWork
     {
         ISession CassandraSession { get; }
+        string TableAllData { get; }
+        string TableNewestData { get; }
+        string TableAverageH { get; }
+        string TableAverageDay { get; }
     }
 }
