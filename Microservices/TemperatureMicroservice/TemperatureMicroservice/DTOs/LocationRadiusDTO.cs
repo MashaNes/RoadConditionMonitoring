@@ -11,6 +11,9 @@ namespace TemperatureMicroservice.DTOs
         public double Longitude { get; set; }
         public double RadiusMeters { get; set; }
 
+        public LocationRadiusDTO()
+        { }
+
         public LocationRadiusDTO(LocationTimeDTO locationTimeDTO)
         {
             Latitude = locationTimeDTO.Latitude;

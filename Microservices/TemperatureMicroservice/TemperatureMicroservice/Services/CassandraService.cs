@@ -83,12 +83,12 @@ namespace TemperatureMicroservice.Services
         {
             string command = "update " + table;
             command += " set \"DataCount\"=" + (originalData.DataCount + 1)
-                    + ", \"Radius\"='" + originalData.Radius
-                    + "',  \"AverageAirTemperature\"="
-                    + (originalData.DataCount / (originalData.DataCount + 1) * originalData.AverageAirTemperature + data.AirTemperature / (originalData.DataCount + 1))
+                    + ", \"Radius\"=" + originalData.Radius
+                    + ",  \"AverageAirTemperature\"="
+                    + (originalData.DataCount / (double)(originalData.DataCount + 1) * originalData.AverageAirTemperature + data.AirTemperature / (originalData.DataCount + 1))
                     + ", \"AverageRoadTemperature\"="
-                    + (originalData.DataCount / (originalData.DataCount + 1) * originalData.AverageRoadTemperature + data.RoadTemperature / (originalData.DataCount + 1));
-            command += "where \"Timestamp\"='" + _dateService.ConvertDateToString(originalData.Timestamp) + "'"
+                    + (originalData.DataCount / (double)(originalData.DataCount + 1) * originalData.AverageRoadTemperature + data.RoadTemperature / (originalData.DataCount + 1));
+            command += " where \"Timestamp\"='" + _dateService.ConvertDateToString(originalData.Timestamp) + "'"
                     + " AND \"Latitude\"=" + originalData.Latitude + " AND \"Longitude\"=" + originalData.Longitude + ";";
             return command;
         }
@@ -102,7 +102,7 @@ namespace TemperatureMicroservice.Services
 
         public string SelectByTimestampQuery(string table, DateTime time)
         {
-            return "select * ftom " + table + " where \"Timestamp\"='" + _dateService.ConvertDateToString(time) + "' ALLOW FILTERING";
+            return "select * from " + table + " where \"Timestamp\"='" + _dateService.ConvertDateToString(time) + "' ALLOW FILTERING";
         }
     }
 }

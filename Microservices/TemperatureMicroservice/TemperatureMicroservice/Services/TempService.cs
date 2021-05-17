@@ -68,7 +68,7 @@ namespace TemperatureMicroservice.Services
                 AverageTempData averageData = _cassandraService.ConvertCassandraAverageRow(instance);
                 if (CalculateDistance(newData.Latitude, newData.Longitude, averageData.Latitude, averageData.Longitude) <= averageData.Radius)
                 {
-                    if (averageData.Timestamp == newData.Timestamp)
+                    if (DateTime.Compare(averageData.Timestamp, newData.Timestamp) == 0)
                     {
                         found = true;
                         _unitOfWork.CassandraSession.Execute(_cassandraService.UpdateAverageQuery(table, newData, averageData));
@@ -103,7 +103,7 @@ namespace TemperatureMicroservice.Services
 
         public async Task<List<RoadAndAirTempData>> GetDataLocation(LocationRadiusDTO locationInfo, bool newest)
         {
-            string table = newest ? "newest_temperatures" : "all_temperaures";
+            string table = newest ? "newest_temperatures" : "all_temperatures";
             var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(table));
             return FilterByLocation(locationInfo, data.Select(instance => _cassandraService.ConvertCassandraTempRow(instance)).ToList());
         }
