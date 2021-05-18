@@ -80,3 +80,15 @@ services:
     build: "Docker images/python-sensor-air"
     ports:
       - "5015:5000"
+  temperaturemicroservice:
+    image: ${DOCKER_REGISTRY-}temperaturemicroservice
+    build:
+      context: RoadConditionMonitoring/Microservices/TemperatureMicroservice
+      dockerfile: TemperatureMicroservice/Dockerfile
+    ports: 
+      - "49161:80"
+  cassandra:
+    image: cassandra
+    ports:
+      - "9160:9160"
+      - "9043:9042"

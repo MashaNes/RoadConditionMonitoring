@@ -26,9 +26,11 @@
 	&ensp;&ensp;&ensp;}  
  }  
  <br/>
- Additionally, Kafka instance located on localhost:29092 should have topics "Temperature" and "AirQuality" with no key and string value  
+ Kafka instance located on localhost:29092 should have topics "Temperature" and "AirQuality" with no key and string value  
  &ensp;&ensp;&ensp;Connection can be initialized through Kafka GUI tool - Offset Explorer (https://kafkatool.com/download.html)  
  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Zookeeper Port 22181  
  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Zookeeper Host localhost  
  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Advanced/Bootstrap servers localhost:29092  
+ <br/>
+ Cassandra instance located on localhost:9043 should have the script from repo/Cassandra/Temperature.txt executed in cqlsh  
  

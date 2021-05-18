@@ -1,0 +1,48 @@
+create keyspace temperature_data
+with replication = {'class':'SimpleStrategy','replication_factor':1};
+
+use temperature_data;
+
+create table all_temperatures
+("Timestamp" TIMESTAMP,
+"RecordId" INT,
+"StationName" VARCHAR,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"AirTemperature" DOUBLE,
+"RoadTemperature" DOUBLE,
+PRIMARY KEY("Timestamp", "Latitude", "Longitude")
+);
+
+create table newest_temperatures
+("Timestamp" TIMESTAMP,
+"RecordId" INT,
+"StationName" VARCHAR,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"AirTemperature" DOUBLE,
+"RoadTemperature" DOUBLE,
+PRIMARY KEY("Latitude", "Longitude")
+);
+
+create table average_per_h
+("Timestamp" TIMESTAMP,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"Radius" DOUBLE,
+"AverageAirTemperature" DOUBLE,
+"AverageRoadTemperature" DOUBLE,
+"DataCount" INT,
+PRIMARY KEY("Timestamp", "Latitude", "Longitude")
+);
+
+create table average_per_day
+("Timestamp" TIMESTAMP,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"Radius" DOUBLE,
+"AverageAirTemperature" DOUBLE,
+"AverageRoadTemperature" DOUBLE,
+"DataCount" INT,
+PRIMARY KEY("Timestamp", "Latitude", "Longitude")
+);
