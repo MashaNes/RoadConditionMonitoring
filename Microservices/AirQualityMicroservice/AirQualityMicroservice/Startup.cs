@@ -29,6 +29,7 @@ namespace AirQualityMicroservice
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IAirQualityService, AirQualityService>();
+            services.AddTransient<ICassandraService, CassandraService>();
             services.AddTransient<IDateService, DateService>();
             services.AddTransient<IGeolocationService, GeolocationService>();
             services.AddHostedService<KafkaService>();
