@@ -11,7 +11,7 @@ namespace AcquisitionGateway.Services
 {
     public class AirQualityService : KafkaService, IAirQualityService
     {
-        public AirQualityService(IUnitOfWork unitOfWork) : base(unitOfWork, "AirQuality")
+        public AirQualityService(IUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.TopicAirQuality)
         { }
 
         public async Task<bool> AddData(AirQualityData newData)

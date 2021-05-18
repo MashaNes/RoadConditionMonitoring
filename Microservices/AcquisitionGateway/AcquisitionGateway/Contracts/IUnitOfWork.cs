@@ -9,5 +9,7 @@ namespace AcquisitionGateway.Contracts
     public interface IUnitOfWork
     {
         IProducer<Null, string> KafkaProducer { get; }
+        string TopicTemperature { get; }
+        string TopicAirQuality { get; }
     }
 }

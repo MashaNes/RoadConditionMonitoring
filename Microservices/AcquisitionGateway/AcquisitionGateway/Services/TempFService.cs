@@ -11,7 +11,7 @@ namespace AcquisitionGateway.Services
 {
     public class TempFService : KafkaService, ITempFService
     {
-        public TempFService(IUnitOfWork unitOfWork) : base(unitOfWork, "Temperature")
+        public TempFService(IUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.TopicTemperature)
         { }
 
         public async Task<bool> AddData(RoadAndAirTempData newData)

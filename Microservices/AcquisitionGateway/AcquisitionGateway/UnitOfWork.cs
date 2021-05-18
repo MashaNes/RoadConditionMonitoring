@@ -28,5 +28,25 @@ namespace AcquisitionGateway
                 return _kafkaProducer;
             }
         }
+
+        private string _topicTemperature = "Temperature";
+
+        public string TopicTemperature
+        {
+            get
+            {
+                return this._topicTemperature;
+            }
+        }
+
+        private string _topicAirQuality = "AirQuality";
+
+        public string TopicAirQuality
+        {
+            get
+            {
+                return this._topicAirQuality;
+            }
+        }
     }
 }
