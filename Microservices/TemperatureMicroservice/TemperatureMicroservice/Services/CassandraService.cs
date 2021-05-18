@@ -85,12 +85,17 @@ namespace TemperatureMicroservice.Services
             command += " set \"DataCount\"=" + (originalData.DataCount + 1)
                     + ", \"Radius\"=" + originalData.Radius
                     + ",  \"AverageAirTemperature\"="
-                    + (originalData.DataCount / (double)(originalData.DataCount + 1) * originalData.AverageAirTemperature + data.AirTemperature / (originalData.DataCount + 1))
+                    + (CalculateAverage(originalData.DataCount, originalData.AverageAirTemperature, data.AirTemperature))
                     + ", \"AverageRoadTemperature\"="
-                    + (originalData.DataCount / (double)(originalData.DataCount + 1) * originalData.AverageRoadTemperature + data.RoadTemperature / (originalData.DataCount + 1));
+                    + (CalculateAverage(originalData.DataCount, originalData.AverageRoadTemperature, data.RoadTemperature));
             command += " where \"Timestamp\"='" + _dateService.ConvertDateToString(originalData.Timestamp) + "'"
                     + " AND \"Latitude\"=" + originalData.Latitude + " AND \"Longitude\"=" + originalData.Longitude + ";";
             return command;
+        }
+
+        private double CalculateAverage(int DataCount, double OldAverage, double newData)
+        {
+            return DataCount / (double)(DataCount + 1) * OldAverage + newData / (DataCount + 1);
         }
 
         public string SelectTimeframeQuery(string table, DateTime low, DateTime high)
