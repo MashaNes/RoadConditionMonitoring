@@ -21,14 +21,6 @@ namespace TemperatureMicroservice.Controllers
             _tempService = tempService;
         }
 
-        [HttpPost]
-        [Route("add-data")]
-        public async Task<ActionResult> AddData([FromBody] RoadAndAirTempData roadData)
-        {
-            await _tempService.AddData(roadData);
-            return Ok();
-        }
-
         [HttpGet]
         [Route("get-newest-data")]
         public async Task<ActionResult> GetNewestData()

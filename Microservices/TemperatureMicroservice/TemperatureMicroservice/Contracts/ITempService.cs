@@ -9,7 +9,6 @@ namespace TemperatureMicroservice.Contracts
 {
     public interface ITempService
     {
-        Task<bool> AddData(RoadAndAirTempData newData);
         Task<List<RoadAndAirTempData>> GetAllNewest();
         Task<List<RoadAndAirTempData>> GetDataByTimeframe(DateTime time, int seconds);
         Task<List<RoadAndAirTempData>> GetDataLocation(LocationRadiusDTO locationInfo, bool newest);

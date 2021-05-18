@@ -31,6 +31,8 @@ namespace TemperatureMicroservice
             services.AddTransient<ITempService, TempService>();
             services.AddTransient<IDateService, DateService>();
             services.AddTransient<ICassandraService, CassandraService>();
+            services.AddTransient<IGeolocationService, GeolocationService>();
+            services.AddHostedService<KafkaService>();
             services.AddControllers();
             services.AddCors(options =>
             {

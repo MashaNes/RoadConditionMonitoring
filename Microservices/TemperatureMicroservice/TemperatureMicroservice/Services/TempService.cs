@@ -14,69 +14,13 @@ namespace TemperatureMicroservice.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICassandraService _cassandraService;
-        private static int MaxDistance = 5;
+        private readonly IGeolocationService _geolocationService;
 
-        public TempService(IUnitOfWork unitOfWork, ICassandraService cassandraService)
+        public TempService(IUnitOfWork unitOfWork, ICassandraService cassandraService, IGeolocationService geolocationService)
         {
             this._unitOfWork = unitOfWork;
             this._cassandraService = cassandraService;
-        }
-
-        public async Task<bool> AddData(RoadAndAirTempData newData)
-        {
-            _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TableAllData, newData));
-
-            bool found = false;
-
-            var DataNewest = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(_unitOfWork.TableNewestData));
-            foreach (var instance in DataNewest)
-            {
-                RoadAndAirTempData roadData = _cassandraService.ConvertCassandraTempRow(instance);
-                if (CalculateDistance(newData.Latitude, newData.Longitude, roadData.Latitude, roadData.Longitude) <= MaxDistance)
-                {
-                    found = true;
-                    if (newData.Timestamp > roadData.Timestamp)
-                        _unitOfWork.CassandraSession.Execute(_cassandraService.UpdateNewestQuery(_unitOfWork.TableNewestData, newData, roadData.Latitude, roadData.Longitude));
-                }
-            }
-            if (!found)
-                _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TableNewestData, newData));
-
-            newData.Timestamp = new DateTime(newData.Timestamp.Year, newData.Timestamp.Month, newData.Timestamp.Day).AddHours(newData.Timestamp.Hour);
-            UpdateAverage(_unitOfWork.TableAverageH, newData);
-
-            newData.Timestamp = new DateTime(newData.Timestamp.Year, newData.Timestamp.Month, newData.Timestamp.Day);
-            UpdateAverage(_unitOfWork.TableAverageDay, newData);
-
-            return true;
-        }
-
-        private double CalculateDistance(double latitude1, double longitude1, double latitude2, double longitude2)
-        {
-            return GeoCalculator.GetDistance(
-                new Coordinate { Latitude = latitude1, Longitude = longitude1 },
-                new Coordinate { Latitude = latitude2, Longitude = longitude2 },
-                3, DistanceUnit.Meters);
-        }
-
-        private void UpdateAverage(string table, RoadAndAirTempData newData)
-        {
-            bool found = false;
-            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(table));
-            foreach (var instance in data)
-            {
-                AverageTempData averageData = _cassandraService.ConvertCassandraAverageRow(instance);
-                if (CalculateDistance(newData.Latitude, newData.Longitude, averageData.Latitude, averageData.Longitude) <= averageData.Radius)
-                {
-                    if (DateTime.Compare(averageData.Timestamp, newData.Timestamp) == 0)
-                    {
-                        found = true;
-                        _unitOfWork.CassandraSession.Execute(_cassandraService.UpdateAverageQuery(table, newData, averageData));
-                    }
-                }
-            }
-            if (!found)
-                _unitOfWork.CassandraSession.Execute(_cassandraService.InsertAverageTempDataQuery(table, newData, MaxDistance));
+            this._geolocationService = geolocationService;
         }
 
         public async Task<List<RoadAndAirTempData>> GetAllNewest()
@@ -126,7 +70,7 @@ namespace TemperatureMicroservice.Services
             List<T> retList = new List<T>();
             foreach(T instance in data)
             {
-                if (CalculateDistance(instance.Latitude, instance.Longitude, locationInfo.Latitude, locationInfo.Longitude) <= locationInfo.RadiusMeters)
+                if (_geolocationService.CalculateDistance(instance.Latitude, instance.Longitude, locationInfo.Latitude, locationInfo.Longitude) <= locationInfo.RadiusMeters)
                     retList.Add(instance);
             }
             return retList;

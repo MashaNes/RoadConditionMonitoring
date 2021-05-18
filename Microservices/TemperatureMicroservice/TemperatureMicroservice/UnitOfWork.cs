@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cassandra;
 using TemperatureMicroservice.Contracts;
+using Confluent.Kafka;
 
 namespace TemperatureMicroservice
 {
@@ -21,6 +22,40 @@ namespace TemperatureMicroservice
                 }
 
                 return _cassandraSession;
+            }
+        }
+
+        private IConsumer<Null, string> _kafkaConsumer;
+
+        public IConsumer<Null, string> KafkaConsumer
+        {
+            get
+            {
+                if (this._kafkaConsumer == null)
+                {
+                    var config = new ConsumerConfig
+                    {
+                        BootstrapServers = "192.168.0.26:29092",
+                        GroupId = "Temperature",
+                        AutoOffsetReset = AutoOffsetReset.Earliest,
+                        EnableAutoCommit = true,
+                        EnableAutoOffsetStore = false
+                    };
+
+                    _kafkaConsumer = new ConsumerBuilder<Null, string>(config).Build();
+                }
+
+                return _kafkaConsumer;
+            }
+        }
+
+        private string _kafkaTopic = "Temperature";
+
+        public string KafkaTopic
+        {
+            get
+            {
+                return this._kafkaTopic;
             }
         }
 
