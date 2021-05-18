@@ -1,0 +1,62 @@
+create keyspace air_quality_data
+with replication = {'class':'SimpleStrategy','replication_factor':1};
+
+use air_quality_data;
+
+create table all_air_quality
+("Timestamp" TIMESTAMP,
+"StationName" VARCHAR,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"CO" DOUBLE,
+"NMHC" DOUBLE,
+"Benzene" DOUBLE,
+"NOx" DOUBLE,
+"NO2" DOUBLE,
+"RelativeHumidity" DOUBLE,
+PRIMARY KEY("Timestamp", "Latitude", "Longitude")
+);
+
+create table newest_air_quality
+("Timestamp" TIMESTAMP,
+"StationName" VARCHAR,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"CO" DOUBLE,
+"NMHC" DOUBLE,
+"Benzene" DOUBLE,
+"NOx" DOUBLE,
+"NO2" DOUBLE,
+"RelativeHumidity" DOUBLE,
+PRIMARY KEY("Latitude", "Longitude")
+);
+
+create table average_per_h
+("Timestamp" TIMESTAMP,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"Radius" DOUBLE,
+"AverageCO" DOUBLE,
+"AverageNMHC" DOUBLE,
+"AverageBenzene" DOUBLE,
+"AverageNOx" DOUBLE,
+"AverageNO2" DOUBLE,
+"AverageRelativeHumidity" DOUBLE,
+"DataCount" INT,
+PRIMARY KEY("Timestamp", "Latitude", "Longitude")
+);
+
+create table average_per_day
+("Timestamp" TIMESTAMP,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"Radius" DOUBLE,
+"AverageCO" DOUBLE,
+"AverageNMHC" DOUBLE,
+"AverageBenzene" DOUBLE,
+"AverageNOx" DOUBLE,
+"AverageNO2" DOUBLE,
+"AverageRelativeHumidity" DOUBLE,
+"DataCount" INT,
+PRIMARY KEY("Timestamp", "Latitude", "Longitude")
+);
