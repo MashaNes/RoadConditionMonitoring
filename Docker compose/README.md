@@ -7,7 +7,7 @@
 	&ensp;&ensp;&ensp;{  
 		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Contents of the "Sensor devices/Air quality sensor" folder from the repository plus a "air-quality-nis.csv" file containing data with the following format:  
 			&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Sensor name, Latitude, Longitude, CO (mg/m^3), Non Metanic HydroCarbons (microg/m^3), Benzene (microg/m^3), NOx (ppb), NO2 (microg/m^3), Relative Humidity (%)  
-		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Dataset used (and adapted): https://www.kaggle.com/shrutibhargava94/india-air-quality-data  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Dataset used (and adapted): https://www.kaggle.com/citrahsagala/airquality  
 	&ensp;&ensp;&ensp;},  
 	&ensp;&ensp;&ensp;python-sensor-temp  
 	&ensp;&ensp;&ensp;{  
