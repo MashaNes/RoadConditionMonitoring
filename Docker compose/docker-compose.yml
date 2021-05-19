@@ -87,8 +87,18 @@ services:
       dockerfile: TemperatureMicroservice/Dockerfile
     ports: 
       - "49161:80"
-  cassandra:
+  cassandra-temp:
     image: cassandra
     ports:
-      - "9160:9160"
       - "9043:9042"
+  airqualitymicroservice:
+    image: ${DOCKER_REGISTRY-}airqualitymicroservice
+    build:
+      context: RoadConditionMonitoring/Microservices/AirQualityMicroservice
+      dockerfile: AirQualityMicroservice/Dockerfile
+    ports: 
+      - "49162:80"
+  cassandra-air:
+    image: cassandra
+    ports:
+      - "9044:9042"
