@@ -54,7 +54,7 @@ namespace AirQualityMicroservice.Services
         {
             string command = "insert into " + table + " (\"Timestamp\", \"StationName\", \"Latitude\", \"Longitude\", "
                                                       + "\"CO\", \"NMHC\", \"Benzene\", \"NOx\", \"NO2\", \"RelativeHumidity\")";
-            command += "values ('" + _dateService.ConvertDateToString(data.Timestamp) + "', '" + data.StationName + "', " + ", " + data.Latitude + ", "
+            command += "values ('" + _dateService.ConvertDateToString(data.Timestamp) + "', '" + data.StationName + "', " + data.Latitude + ", "
                                    + data.Longitude + ", " + data.CO + ", " + data.NMHC + ", " + data.Benzene + ", " + data.NOx + ", " 
                                    + data.NO2 + ", " + data.RelativeHumidity + ");";
             return command;
@@ -82,7 +82,7 @@ namespace AirQualityMicroservice.Services
         public string UpdateNewestQuery(string table, AirQualityData data, double Latitude, double Longitude)
         {
             string command = "update " + table;
-            command += " set \"Timestamp\"='" + _dateService.ConvertDateToString(data.Timestamp) + ", \"StationName\"='" + data.StationName 
+            command += " set \"Timestamp\"='" + _dateService.ConvertDateToString(data.Timestamp) + "', \"StationName\"='" + data.StationName 
                     + "',  \"CO\"=" + data.CO + ", \"NMHC\"=" + data.NMHC + ", \"Benzene\"=" + data.Benzene
                     + ", \"NOx\"=" + data.NOx + ", \"NO2\"=" + data.NO2 + ", \"RelativeHumidity\"=" + data.RelativeHumidity;
             command += " where \"Latitude\"=" + Latitude + " AND \"Longitude\"=" + Longitude + ";";

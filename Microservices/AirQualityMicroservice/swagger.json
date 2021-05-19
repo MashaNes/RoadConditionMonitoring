@@ -1,0 +1,279 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AirQualityMicroservice",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/air_quality_microservice/get-newest-data": {
+      "get": {
+        "tags": [
+          "AirQuality"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/air_quality_microservice/get-data-timeframe": {
+      "post": {
+        "tags": [
+          "AirQuality"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeframeDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeframeDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeframeDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/air_quality_microservice/get-data-location/{newest}": {
+      "post": {
+        "tags": [
+          "AirQuality"
+        ],
+        "parameters": [
+          {
+            "name": "newest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/air_quality_microservice/get-data-location-timeframe": {
+      "post": {
+        "tags": [
+          "AirQuality"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationTimeDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationTimeDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationTimeDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/air_quality_microservice/get-data-average": {
+      "post": {
+        "tags": [
+          "AirQuality"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AverageDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AverageDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AverageDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AirQualityData": {
+        "type": "object",
+        "properties": {
+          "StationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "CO": {
+            "type": "number",
+            "format": "double"
+          },
+          "NMHC": {
+            "type": "number",
+            "format": "double"
+          },
+          "Benzene": {
+            "type": "number",
+            "format": "double"
+          },
+          "NOx": {
+            "type": "number",
+            "format": "double"
+          },
+          "NO2": {
+            "type": "number",
+            "format": "double"
+          },
+          "RelativeHumidity": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeframeDTO": {
+        "type": "object",
+        "properties": {
+          "Seconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ReferentTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LocationRadiusDTO": {
+        "type": "object",
+        "properties": {
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "RadiusMeters": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LocationTimeDTO": {
+        "type": "object",
+        "properties": {
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "RadiusMeters": {
+            "type": "number",
+            "format": "double"
+          },
+          "ReferenceTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Seconds": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AverageDTO": {
+        "type": "object",
+        "properties": {
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "PerHour": {
+            "type": "boolean"
+          },
+          "LocationInfo": {
+            "$ref": "#/components/schemas/LocationRadiusDTO"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
