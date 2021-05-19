@@ -62,6 +62,8 @@ class DataAcquisition:
         filename = "road-weather-information-station.csv"
         n = sum(1 for line in open(filename)) - 1
         s = 1
+        
+        time.sleep(10)
 
         while True:
             skip = sorted(random.sample(range(1, n + 1), n - s))

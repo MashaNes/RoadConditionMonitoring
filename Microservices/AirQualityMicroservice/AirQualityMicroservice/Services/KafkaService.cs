@@ -30,6 +30,8 @@ namespace AirQualityMicroservice.Services
         {
             stoppingToken.Register(() => CloseConsumer());
 
+            await Task.Delay(7000, stoppingToken);
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(stoppingToken);
