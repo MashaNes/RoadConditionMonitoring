@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MonitoringGateway.Contracts;
+using MonitoringGateway.Services;
 
 namespace MonitoringGateway
 {
@@ -25,7 +27,12 @@ namespace MonitoringGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ISubscriptionDataService, SubscriptionDataService>();
+            services.AddTransient<ITemperatureService, TemperatureService>();
+            services.AddTransient<IAirQualityService, AirQualityService>();
+            services.AddTransient<IGeolocationService, GeolocationService>();
+            services.AddTransient<IAggregationService, AggregationService>();
             services.AddControllers();
             services.AddCors(options =>
             {
