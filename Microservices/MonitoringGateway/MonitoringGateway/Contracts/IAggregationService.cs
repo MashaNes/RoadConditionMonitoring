@@ -10,6 +10,7 @@ namespace MonitoringGateway.Contracts
     public interface IAggregationService
     {
         List<LocationData> AggregateTempAirQuality(List<RoadAndAirTempData> tempData, List<AirQualityData> airQualityData);
+        List<LocationDataList> AggregateTempAirQualityList(List<RoadAndAirTempData> tempData, List<AirQualityData> airQualityData);
         List<AverageLocationData> AggregateAverage(List<AverageTempData> tempData, List<AverageAirQualityData> airQualityData);
     }
 }

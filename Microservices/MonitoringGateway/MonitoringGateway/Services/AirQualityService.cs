@@ -61,5 +61,84 @@ namespace MonitoringGateway.Services
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
         }
+
+        public async Task<List<AirQualityData>> GetNewestLocation(LocationRadiusDTO locationInfo)
+        {
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + locationEndpoint + "/true/",
+                                                                                  new StringContent(JsonSerializer.Serialize(locationInfo), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
+
+        public async Task<List<AverageAirQualityData>> GetAverageLocationHour(LocationRadiusDTO locationInfo)
+        {
+            AverageDTO dto = new AverageDTO();
+            dto.LocationInfo = locationInfo;
+            dto.PerHour = true;
+            dto.Timestamp = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddHours(DateTime.Now.Hour);
+
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+                                                                                  new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
+
+        public async Task<List<AverageAirQualityData>> GetAverageLocationDay(LocationRadiusDTO locationInfo)
+        {
+            AverageDTO dto = new AverageDTO();
+            dto.LocationInfo = locationInfo;
+            dto.PerHour = false;
+            dto.Timestamp = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+                                                                                  new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
+
+        public async Task<List<AverageAirQualityData>> GetAverageLocation(AverageDTO averageInfo)
+        {
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+                                                                                  new StringContent(JsonSerializer.Serialize(averageInfo), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
+
+        public async Task<List<AirQualityData>> GetAllLocation(LocationRadiusDTO locationInfo)
+        {
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + locationEndpoint + "/false/",
+                                                                                  new StringContent(JsonSerializer.Serialize(locationInfo), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
+
+        public async Task<List<AirQualityData>> GetTimeframeLocation(LocationTimeDTO locationTimeInfo)
+        {
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + locationTimeframeEndpoint + "/",
+                                                                                  new StringContent(JsonSerializer.Serialize(locationTimeInfo), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
+
+        public async Task<List<AverageAirQualityData>> GetAverageDate(DateTime dateTime, bool perHour)
+        {
+            AverageDTO dto = new AverageDTO();
+            dto.LocationInfo = null;
+            dto.PerHour = perHour;
+            dto.Timestamp = dateTime;
+
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+                                                                                  new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
+
+        public async Task<List<AirQualityData>> GetTimeframe(TimeframeDTO timeInfo)
+        {
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + timeframeEndpoint + "/",
+                                                                                  new StringContent(JsonSerializer.Serialize(timeInfo), Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
+        }
     }
 }

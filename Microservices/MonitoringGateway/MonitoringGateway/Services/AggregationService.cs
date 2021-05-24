@@ -33,6 +33,32 @@ namespace MonitoringGateway.Services
             return locationData;
         }
 
+        public List<LocationDataList> AggregateTempAirQualityList(List<RoadAndAirTempData> tempData, List<AirQualityData> airQualityData)
+        {
+            List<LocationDataList> locationData = new List<LocationDataList>();
+
+            foreach(RoadAndAirTempData data in tempData)
+            {
+                LocationDataList loc = locationData.Find(loc => _geolocationService.CalculateDistance(loc.Latitude, loc.Longitude, data.Latitude, data.Longitude)
+                                                                 <= _geolocationService.MaxDistance);
+                if (loc is null)
+                    locationData.Add(new LocationDataList(data));
+                else
+                    loc.Temperatures.Add(new Temperature(data));
+            }
+
+            foreach (AirQualityData data in airQualityData)
+            {
+                LocationDataList loc = locationData.Find(loc => _geolocationService.CalculateDistance(loc.Latitude, loc.Longitude, data.Latitude, data.Longitude)
+                                                                <= _geolocationService.MaxDistance);
+                if (loc is null)
+                    locationData.Add(new LocationDataList(data));
+                else
+                    loc.AirQualities.Add(new AirQuality(data));
+            }
+            return locationData;
+        }
+
         public List<AverageLocationData> AggregateAverage(List<AverageTempData> tempData, List<AverageAirQualityData> airQualityData)
         {
             List<AverageLocationData> locationData = tempData.Select(temp => new AverageLocationData(temp)).ToList();

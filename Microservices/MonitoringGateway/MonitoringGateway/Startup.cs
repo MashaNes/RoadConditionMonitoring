@@ -29,6 +29,8 @@ namespace MonitoringGateway
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ISubscriptionDataService, SubscriptionDataService>();
+            services.AddTransient<ILocationDataService, LocationDataService>();
+            services.AddTransient<ITimeDataService, TimeDataService>();
             services.AddTransient<ITemperatureService, TemperatureService>();
             services.AddTransient<IAirQualityService, AirQualityService>();
             services.AddTransient<IGeolocationService, GeolocationService>();
