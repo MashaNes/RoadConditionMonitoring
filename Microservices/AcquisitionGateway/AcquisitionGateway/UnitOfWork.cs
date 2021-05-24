@@ -19,7 +19,10 @@ namespace AcquisitionGateway
                 {
                     var config = new ProducerConfig
                     {
-                        BootstrapServers = "192.168.0.26:29092"
+                        BootstrapServers = "192.168.0.26:29092",
+                        MessageSendMaxRetries = 10,
+                        RetryBackoffMs = 100,
+                        LingerMs = 100
                     };
 
                     this._kafkaProducer = new ProducerBuilder<Null, string>(config).Build();
@@ -47,6 +50,11 @@ namespace AcquisitionGateway
             {
                 return this._topicAirQuality;
             }
+        }
+
+        ~UnitOfWork()
+        {
+            KafkaProducer.Dispose();
         }
     }
 }

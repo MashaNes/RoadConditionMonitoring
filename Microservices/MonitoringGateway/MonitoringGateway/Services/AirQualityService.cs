@@ -14,7 +14,7 @@ namespace MonitoringGateway.Services
     public class AirQualityService : IAirQualityService
     {
         private readonly string serviceLocation = ":49162";
-        private readonly string controller = "api/temp_microservice";
+        private readonly string controller = "api/air_quality_microservice";
         private readonly string newestEndpoint = "get-newest-data";
         private readonly string averageEndpoint = "get-data-average";
         private readonly string locationEndpoint = "get-data-location";

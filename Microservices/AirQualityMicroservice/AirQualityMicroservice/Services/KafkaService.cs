@@ -34,10 +34,15 @@ namespace AirQualityMicroservice.Services
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(stoppingToken);
-                AirQualityData newData = (AirQualityData)JsonSerializer.Deserialize(data.Message.Value, typeof(AirQualityData));
-                AddData(newData);
-                _unitOfWork.KafkaConsumer.StoreOffset(data);
+                ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(TimeSpan.FromSeconds(1));
+                if(data is not null)
+                {
+                    AirQualityData newData = (AirQualityData)JsonSerializer.Deserialize(data.Message.Value, typeof(AirQualityData));
+                    AddData(newData);
+                    _unitOfWork.KafkaConsumer.StoreOffset(data);
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
             }
 
             CloseConsumer();

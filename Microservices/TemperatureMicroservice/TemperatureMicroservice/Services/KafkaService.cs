@@ -32,10 +32,15 @@ namespace TemperatureMicroservice.Services
 
             while(!stoppingToken.IsCancellationRequested)
             {
-                ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(stoppingToken);
-                RoadAndAirTempData newData = (RoadAndAirTempData) JsonSerializer.Deserialize(data.Message.Value, typeof(RoadAndAirTempData));
-                AddData(newData);
-                _unitOfWork.KafkaConsumer.StoreOffset(data);
+                ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(TimeSpan.FromSeconds(1));
+                if(data is not null)
+                {
+                    RoadAndAirTempData newData = (RoadAndAirTempData)JsonSerializer.Deserialize(data.Message.Value, typeof(RoadAndAirTempData));
+                    AddData(newData);
+                    _unitOfWork.KafkaConsumer.StoreOffset(data);
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
             }
 
             CloseConsumer();

@@ -19,6 +19,11 @@ namespace AcquisitionGateway.Services
             this.Topic = Topic;
         }
 
+        ~KafkaService()
+        {
+            _unitOfWork.KafkaProducer.Flush();
+        }
+
         public void Produce(string Data)
         {
             _unitOfWork.KafkaProducer.Produce(Topic, new Message<Null, string> { Value = Data}, handler);
