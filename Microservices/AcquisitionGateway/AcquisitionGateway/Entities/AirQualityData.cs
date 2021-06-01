@@ -17,5 +17,22 @@ namespace AcquisitionGateway.Entities
         public double NOx { get; set; }
         public double NO2 { get; set; }
         public double RelativeHumidity { get; set; }
+
+        public AirQualityData()
+        { }
+
+        public AirQualityData(AirTempData airTempData)
+        {
+            this.StationName = airTempData.StationName;
+            this.Latitude = airTempData.Latitude;
+            this.Longitude = airTempData.Longitude;
+            this.Timestamp = airTempData.Timestamp;
+            this.CO = airTempData.CO;
+            this.NMHC = airTempData.NMHC;
+            this.Benzene = airTempData.Benzene;
+            this.NOx = airTempData.NOx;
+            this.NO2 = airTempData.NO2;
+            this.RelativeHumidity = airTempData.RelativeHumidity;
+        }
     }
 }

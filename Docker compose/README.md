@@ -9,6 +9,12 @@
 			&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Sensor name, Latitude, Longitude, CO (mg/m^3), Non Metanic HydroCarbons (microg/m^3), Benzene (microg/m^3), NOx (ppb), NO2 (microg/m^3), Relative Humidity (%)  
 		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Dataset used (and adapted): https://www.kaggle.com/citrahsagala/airquality  
 	&ensp;&ensp;&ensp;},  
+	&ensp;&ensp;&ensp;python-sensor-acombined 
+	&ensp;&ensp;&ensp;{  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Contents of the "Sensor devices/Air quality and temperature sensor" folder from the repository plus a "nis-complete.csv" file containing data with the following format:  
+			&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Station name, RecordId, RoadSurfaceTemperature, AirTemperature, Latitude, Longitude, CO (mg/m^3), Non Metanic HydroCarbons (microg/m^3), Benzene (microg/m^3), NOx (ppb), NO2 (microg/m^3), Relative Humidity (%)  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Datasets used (adapted and combined): https://www.kaggle.com/citrahsagala/airquality and https://www.kaggle.com/city-of-seattle/seattle-road-weather-information-stations  
+	&ensp;&ensp;&ensp;},  
 	&ensp;&ensp;&ensp;python-sensor-temp  
 	&ensp;&ensp;&ensp;{  
 		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-1,  

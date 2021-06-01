@@ -30,6 +30,7 @@ namespace AcquisitionGateway
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITempFService, TempFService>();
             services.AddTransient<IAirQualityService, AirQualityService>();
+            services.AddTransient<IAirTempService, AirTempService>();
             services.AddControllers();
             services.AddCors(options =>
             {
