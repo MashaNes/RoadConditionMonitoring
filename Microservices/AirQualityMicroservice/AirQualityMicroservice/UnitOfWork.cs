@@ -17,7 +17,7 @@ namespace AirQualityMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("192.168.0.26").WithPort(9044).Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-air").Build();
                     this._cassandraSession = cluster.Connect("air_quality_data");
                 }
 
@@ -35,7 +35,7 @@ namespace AirQualityMicroservice
                 {
                     var config = new ConsumerConfig
                     {
-                        BootstrapServers = "192.168.0.26:29092",
+                        BootstrapServers = "kafka:29092",
                         GroupId = "AirQuality",
                         AutoOffsetReset = AutoOffsetReset.Earliest,
                         EnableAutoCommit = true,

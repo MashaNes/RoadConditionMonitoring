@@ -7,7 +7,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
-  
+    hostname: "zookeeper"
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -17,10 +17,11 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://192.168.0.26:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://kafka:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    hostname: "kafka"
   acquisitiongateway:
     image: ${DOCKER_REGISTRY-}acquisitiongateway
     build:
@@ -28,6 +29,7 @@ services:
       dockerfile: AcquisitionGateway/Dockerfile
     ports: 
       - "49158:80"
+    hostname: "acquisitiongateway"
   python-sensor-temp-1:
     build: "Docker images/python-sensor-temp/python-sensor-temp-1"
     ports:
@@ -87,10 +89,12 @@ services:
       dockerfile: TemperatureMicroservice/Dockerfile
     ports: 
       - "49161:80"
+    hostname: "temperaturemicroservice"
   cassandra-temp:
     image: cassandra
     ports:
       - "9043:9042"
+    hostname: "cassandra-temp"
   airqualitymicroservice:
     image: ${DOCKER_REGISTRY-}airqualitymicroservice
     build:
@@ -98,7 +102,9 @@ services:
       dockerfile: AirQualityMicroservice/Dockerfile
     ports: 
       - "49162:80"
+    hostname: "airqualitymicroservice"
   cassandra-air:
     image: cassandra
     ports:
       - "9044:9042"
+    hostname: "cassandra-air"

@@ -13,7 +13,7 @@ namespace MonitoringGateway.Services
 {
     public class AirQualityService : IAirQualityService
     {
-        private readonly string serviceLocation = ":49162";
+        private readonly string serviceLocation = "http://192.168.0.26:49162";
         private readonly string controller = "api/air_quality_microservice";
         private readonly string newestEndpoint = "get-newest-data";
         private readonly string averageEndpoint = "get-data-average";
@@ -30,7 +30,7 @@ namespace MonitoringGateway.Services
 
         public async Task<List<AirQualityData>> GetNewest()
         {
-            HttpResponseMessage response = await _unitOfWork.HttpClient.GetAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + newestEndpoint + "/");
+            HttpResponseMessage response = await _unitOfWork.HttpClient.GetAsync(serviceLocation + "/" + controller + "/" + newestEndpoint + "/");
             if (response.IsSuccessStatusCode)
                 return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
             return null;
@@ -43,7 +43,7 @@ namespace MonitoringGateway.Services
             dto.PerHour = true;
             dto.Timestamp = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddHours(DateTime.Now.Hour);
 
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -56,7 +56,7 @@ namespace MonitoringGateway.Services
             dto.PerHour = false;
             dto.Timestamp = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -64,7 +64,7 @@ namespace MonitoringGateway.Services
 
         public async Task<List<AirQualityData>> GetNewestLocation(LocationRadiusDTO locationInfo)
         {
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + locationEndpoint + "/true/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + locationEndpoint + "/true/",
                                                                                   new StringContent(JsonSerializer.Serialize(locationInfo), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -77,7 +77,7 @@ namespace MonitoringGateway.Services
             dto.PerHour = true;
             dto.Timestamp = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).AddHours(DateTime.Now.Hour);
 
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -90,7 +90,7 @@ namespace MonitoringGateway.Services
             dto.PerHour = false;
             dto.Timestamp = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -98,7 +98,7 @@ namespace MonitoringGateway.Services
 
         public async Task<List<AverageAirQualityData>> GetAverageLocation(AverageDTO averageInfo)
         {
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(averageInfo), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -106,7 +106,7 @@ namespace MonitoringGateway.Services
 
         public async Task<List<AirQualityData>> GetAllLocation(LocationRadiusDTO locationInfo)
         {
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + locationEndpoint + "/false/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + locationEndpoint + "/false/",
                                                                                   new StringContent(JsonSerializer.Serialize(locationInfo), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -114,7 +114,7 @@ namespace MonitoringGateway.Services
 
         public async Task<List<AirQualityData>> GetTimeframeLocation(LocationTimeDTO locationTimeInfo)
         {
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + locationTimeframeEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + locationTimeframeEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(locationTimeInfo), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -127,7 +127,7 @@ namespace MonitoringGateway.Services
             dto.PerHour = perHour;
             dto.Timestamp = dateTime;
 
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + averageEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AverageAirQualityData>>(await response.Content.ReadAsStreamAsync());
@@ -135,7 +135,7 @@ namespace MonitoringGateway.Services
 
         public async Task<List<AirQualityData>> GetTimeframe(TimeframeDTO timeInfo)
         {
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.Host + serviceLocation + "/" + controller + "/" + timeframeEndpoint + "/",
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(serviceLocation + "/" + controller + "/" + timeframeEndpoint + "/",
                                                                                   new StringContent(JsonSerializer.Serialize(timeInfo), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
             return await JsonSerializer.DeserializeAsync<List<AirQualityData>>(await response.Content.ReadAsStreamAsync());

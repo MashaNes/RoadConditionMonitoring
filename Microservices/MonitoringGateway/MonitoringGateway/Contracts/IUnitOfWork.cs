@@ -9,6 +9,5 @@ namespace MonitoringGateway.Contracts
     public interface IUnitOfWork
     {
         HttpClient HttpClient { get; }
-        String Host { get; }
     }
 }

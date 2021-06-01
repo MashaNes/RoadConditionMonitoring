@@ -17,7 +17,7 @@ namespace TemperatureMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("192.168.0.26").WithPort(9043).Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-temp").Build();
                     this._cassandraSession = cluster.Connect("temperature_data");
                 }
 
@@ -35,7 +35,7 @@ namespace TemperatureMicroservice
                 {
                     var config = new ConsumerConfig
                     {
-                        BootstrapServers = "192.168.0.26:29092",
+                        BootstrapServers = "kafka:29092",
                         GroupId = "Temperature",
                         AutoOffsetReset = AutoOffsetReset.Earliest,
                         EnableAutoCommit = true,

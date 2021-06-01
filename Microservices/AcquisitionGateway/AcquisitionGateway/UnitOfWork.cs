@@ -19,7 +19,7 @@ namespace AcquisitionGateway
                 {
                     var config = new ProducerConfig
                     {
-                        BootstrapServers = "192.168.0.26:29092",
+                        BootstrapServers = "kafka:29092",
                         MessageSendMaxRetries = 10,
                         RetryBackoffMs = 100,
                         LingerMs = 100

@@ -5,8 +5,8 @@ import random
 import pandas
 import ast
 
-data_microservice_location = "192.168.0.26"  # localhost
-data_microservice_port = "49158"  # 49262
+data_microservice_location = "acquisitiongateway"
+data_microservice_port = "80"
 
 
 def two_digit_representation(value):

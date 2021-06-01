@@ -27,15 +27,5 @@ namespace MonitoringGateway
                 return this._httpClient;
             }
         }
-
-        private string _host = "http://192.168.0.26";
-
-        public string Host
-        {
-            get
-            {
-                return this._host;
-            }
-        }
     }
 }
