@@ -18,5 +18,20 @@ namespace AirQualityMicroservice.Entities
         public double NOx { get; set; }
         public double NO2 { get; set; }
         public double RelativeHumidity { get; set; }
+
+        public override string ToString()
+        {
+            string print = "StationName: " + StationName + "\n";
+            print += "Latitude: " + Latitude + "\n";
+            print += "Longitude: " + Longitude + "\n";
+            print += "Timestamp: " + Timestamp.ToString() + "\n";
+            print += "CO: " + CO + "\n";
+            print += "NMHC: " + NMHC + "\n";
+            print += "Benzene: " + Benzene + "\n";
+            print += "NOx: " + NOx + "\n";
+            print += "NO2: " + NO2 + "\n";
+            print += "RelativeHumidity: " + RelativeHumidity + "\n";
+            return print;
+        }
     }
 }

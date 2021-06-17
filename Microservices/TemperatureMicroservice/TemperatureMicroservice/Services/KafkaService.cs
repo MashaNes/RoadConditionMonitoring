@@ -32,11 +32,14 @@ namespace TemperatureMicroservice.Services
 
             while(!stoppingToken.IsCancellationRequested)
             {
+				Console.WriteLine("Try get data");
                 ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(TimeSpan.FromSeconds(1));
                 if(data is not null)
                 {
+					Console.WriteLine("Get data");
                     RoadAndAirTempData newData = (RoadAndAirTempData)JsonSerializer.Deserialize(data.Message.Value, typeof(RoadAndAirTempData));
-                    AddData(newData);
+                    AddData(newData);					
+					Console.WriteLine("Added data to database");
                     _unitOfWork.KafkaConsumer.StoreOffset(data);
                 }
 

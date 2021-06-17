@@ -79,10 +79,6 @@ services:
     build: "Docker images/python-sensor-air"
     ports:
       - "5014:5000"
-  python-sensor-air-5:
-    build: "Docker images/python-sensor-air"
-    ports:
-      - "5015:5000"
   python-sensor-combined-1:
     build: "Docker images/python-sensor-combined"
     ports:
@@ -91,18 +87,8 @@ services:
     build: "Docker images/python-sensor-combined"
     ports:
       - "5032:5000"
-  python-sensor-combined-3:
-    build: "Docker images/python-sensor-combined"
-    ports:
-      - "5033:5000"
-  python-sensor-combined-4:
-    build: "Docker images/python-sensor-combined"
-    ports:
-      - "5034:5000"
-  python-sensor-combined-5:
-    build: "Docker images/python-sensor-combined"
-    ports:
-      - "5035:5000"
+  python-sensor-vehicle:
+    build: "Docker images/python-sensor-vehicle"
   temperaturemicroservice:
     image: ${DOCKER_REGISTRY-}temperaturemicroservice
     build:
@@ -129,3 +115,22 @@ services:
     ports:
       - "9044:9042"
     hostname: "cassandra-air"
+  vehiclegateway:
+    image: ${DOCKER_REGISTRY-}vehiclegateway
+    build:
+      context: RoadConditionMonitoring/Microservices/VehicleGateway
+      dockerfile: VehicleGateway/Dockerfile
+    hostname: "vehiclegateway"
+  vehiclelocationmicroservice:
+    image: ${DOCKER_REGISTRY-}vehiclelocationmicroservice
+    build:
+      context: RoadConditionMonitoring/Microservices/VehicleLocationMicroservice
+      dockerfile: VehicleLocationMicroservice/Dockerfile
+    hostname: "vehiclelocationmicroservice"
+    ports:
+      - "49160:80"
+  cassandra-vehicle:
+    image: cassandra
+    ports:
+      - "9045:9042"
+    hostname: "cassandra-vehicle"

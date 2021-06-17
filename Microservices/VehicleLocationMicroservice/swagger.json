@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "VehicleLocationMicroservice",
+    "version": "v1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:49160"
+  } ],
+  "paths": {
+    "/api/vehicle-location/get-all": {
+      "get": {
+        "tags": [
+          "VehicleLocation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/vehicle-location/get-by-id/{vehicleId}": {
+      "get": {
+        "tags": [
+          "VehicleLocation"
+        ],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

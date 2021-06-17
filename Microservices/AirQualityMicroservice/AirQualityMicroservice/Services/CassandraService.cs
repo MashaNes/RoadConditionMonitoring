@@ -52,11 +52,16 @@ namespace AirQualityMicroservice.Services
 
         public string InsertAirQualityDataQuery(string table, AirQualityData data)
         {
+            Console.WriteLine("Entered function insert");
+            Console.Out.Flush();
             string command = "insert into " + table + " (\"Timestamp\", \"StationName\", \"Latitude\", \"Longitude\", "
                                                       + "\"CO\", \"NMHC\", \"Benzene\", \"NOx\", \"NO2\", \"RelativeHumidity\")";
-            command += "values ('" + _dateService.ConvertDateToString(data.Timestamp) + "', '" + data.StationName + "', " + data.Latitude + ", "
+            Console.WriteLine(command);
+            Console.Out.Flush();
+            command += " values ('" + _dateService.ConvertDateToString(data.Timestamp) + "', '" + data.StationName + "', " + data.Latitude + ", "
                                    + data.Longitude + ", " + data.CO + ", " + data.NMHC + ", " + data.Benzene + ", " + data.NOx + ", " 
                                    + data.NO2 + ", " + data.RelativeHumidity + ");";
+            Console.WriteLine(command);
             return command;
         }
 

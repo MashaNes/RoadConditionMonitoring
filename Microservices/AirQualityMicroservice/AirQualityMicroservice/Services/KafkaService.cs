@@ -34,11 +34,15 @@ namespace AirQualityMicroservice.Services
 
             while (!stoppingToken.IsCancellationRequested)
             {
+				Console.WriteLine("Try get data");
                 ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(TimeSpan.FromSeconds(1));
                 if(data is not null)
                 {
-                    AirQualityData newData = (AirQualityData)JsonSerializer.Deserialize(data.Message.Value, typeof(AirQualityData));
+					Console.WriteLine("Get data " + data.Message.Value);
+                    AirQualityData newData = JsonSerializer.Deserialize<AirQualityData>(data.Message.Value);
+                    Console.WriteLine("Deserialized");
                     AddData(newData);
+					Console.WriteLine("Data added to database");
                     _unitOfWork.KafkaConsumer.StoreOffset(data);
                 }
 
@@ -50,7 +54,12 @@ namespace AirQualityMicroservice.Services
 
         private void AddData(AirQualityData newData)
         {
-            _unitOfWork.CassandraSession.Execute(_cassandraService.InsertAirQualityDataQuery(_unitOfWork.TableAllData, newData));
+            Console.WriteLine("Entered function");
+            Console.WriteLine(newData.ToString());
+            string command = _cassandraService.InsertAirQualityDataQuery(_unitOfWork.TableAllData, newData);
+            Console.Out.Flush();
+            _unitOfWork.CassandraSession.Execute(command);
+            Console.WriteLine("Inserted into all");
 
             bool found = false;
 

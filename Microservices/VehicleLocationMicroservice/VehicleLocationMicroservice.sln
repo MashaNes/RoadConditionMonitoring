@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleLocationMicroservice", "VehicleLocationMicroservice\VehicleLocationMicroservice.csproj", "{4FF0DC6D-9698-4BAB-A708-3234B06F90C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FF0DC6D-9698-4BAB-A708-3234B06F90C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FF0DC6D-9698-4BAB-A708-3234B06F90C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FF0DC6D-9698-4BAB-A708-3234B06F90C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FF0DC6D-9698-4BAB-A708-3234B06F90C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E408FF05-9CD3-4CC1-886D-63B0A2429B96}
+	EndGlobalSection
+EndGlobal

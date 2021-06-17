@@ -1,0 +1,12 @@
+create keyspace vehicle_location_data
+with replication = {'class':'SimpleStrategy','replication_factor':1};
+
+use vehicle_location_data;
+
+create table vehicle_location
+("Timestamp" TIMESTAMP,
+"VehicleId" INT,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+PRIMARY KEY("VehicleId")
+);
