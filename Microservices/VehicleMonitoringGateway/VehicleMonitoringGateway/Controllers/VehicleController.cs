@@ -20,10 +20,10 @@ namespace VehicleMonitoringGateway.Controllers
         }
 
         [HttpGet]
-        [Route("get-info/{vehicleId}")]
-        public async Task<ActionResult> GetInfo(int vehicleId)
+        [Route("get-info/{vehicleId}/{radius}")]
+        public async Task<ActionResult> GetInfo(int vehicleId, double radius)
         {
-            VehicleLocationData result = await _vehicleService.getInfoForVehicle(vehicleId);
+            VehicleLocationData result = await _vehicleService.getInfoForVehicle(vehicleId, radius);
             if (result == null)
                 return BadRequest("There is currently no available data for that vehicle.");
             return Ok(result);

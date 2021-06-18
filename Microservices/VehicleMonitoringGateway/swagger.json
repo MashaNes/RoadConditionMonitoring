@@ -1,0 +1,42 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "VehicleMonitoringGateway",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/vehicle/get-info/{vehicleId}/{radius}": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}

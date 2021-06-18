@@ -31,6 +31,9 @@ namespace VehicleLocationMicroservice.Controllers
         [Route("get-by-id/{vehicleId}")]
         public async Task<ActionResult> GetById(int vehicleId)
         {
+            VehicleData result = await _vehicleLocationService.GetById(vehicleId);
+            if (result is null)
+                return BadRequest("No data for that vehicle.");
             return Ok(await _vehicleLocationService.GetById(vehicleId));
         }
     }

@@ -8,6 +8,6 @@ namespace VehicleMonitoringGateway.Contracts
 {
     public interface IVehicleService
     {
-        Task<VehicleLocationData> getInfoForVehicle(int vehicleId);
+        Task<VehicleLocationData> getInfoForVehicle(int vehicleId, double radius);
     }
 }

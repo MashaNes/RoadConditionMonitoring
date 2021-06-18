@@ -17,7 +17,6 @@ namespace VehicleMonitoringGateway.Services
         private string _vehicleEndpoint = "get-by-id";
         private string _gatewayRoadController = "api/monitoring-location";
         private string _gatewayRoadEndpoint = "get-newest";
-        private double _radius = 300;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -26,7 +25,7 @@ namespace VehicleMonitoringGateway.Services
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<VehicleLocationData> getInfoForVehicle(int vehicleId)
+        public async Task<VehicleLocationData> getInfoForVehicle(int vehicleId, double radius)
         {
             VehicleLocationData retValue = null;
             
@@ -44,7 +43,7 @@ namespace VehicleMonitoringGateway.Services
                 LocationRadiusDTO DTO = new LocationRadiusDTO();
                 DTO.Latitude = vehicleData.Latitude;
                 DTO.Longitude = vehicleData.Longitude;
-                DTO.RadiusMeters = _radius;
+                DTO.RadiusMeters = radius;
                 response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.MonitoringGatewayLocation + "/" + _gatewayRoadController + "/" + _gatewayRoadEndpoint + "/",
                                                                                  new StringContent(JsonSerializer.Serialize(DTO), Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();

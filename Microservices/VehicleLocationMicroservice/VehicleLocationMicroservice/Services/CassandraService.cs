@@ -53,6 +53,8 @@ namespace VehicleLocationMicroservice.Services
 
         private VehicleData ConvertCassandraRow(Row instance)
         {
+            if (instance is null)
+                return null;
             VehicleData data = new VehicleData();
             Console.WriteLine(instance.ToString());
             Console.Out.Flush();
