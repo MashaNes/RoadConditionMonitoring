@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MonitoringGateway.Contracts;
 using MonitoringGateway.Services;
+using MonitoringGateway.Services.MessagingService;
 
 namespace MonitoringGateway
 {
@@ -35,6 +36,7 @@ namespace MonitoringGateway
             services.AddTransient<IAirQualityService, AirQualityService>();
             services.AddTransient<IGeolocationService, GeolocationService>();
             services.AddTransient<IAggregationService, AggregationService>();
+            services.AddTransient<INotificationService, NotificationService>();
             services.AddControllers();
             services.AddCors(options =>
             {
@@ -42,6 +44,10 @@ namespace MonitoringGateway
                 {
                     builder.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed((host) => true).AllowCredentials();
                 });
+            });
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
             });
             services.AddSwaggerGen(c =>
             {
@@ -73,6 +79,7 @@ namespace MonitoringGateway
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("road-monitor-hub");
             });
         }
     }
