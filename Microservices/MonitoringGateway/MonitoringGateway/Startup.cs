@@ -37,6 +37,9 @@ namespace MonitoringGateway
             services.AddTransient<IGeolocationService, GeolocationService>();
             services.AddTransient<IAggregationService, AggregationService>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddHostedService<MessageNewestService>();
+            services.AddHostedService<MessageAverageHService>();
+            services.AddHostedService<MessageAverageDayService>();
             services.AddControllers();
             services.AddCors(options =>
             {
