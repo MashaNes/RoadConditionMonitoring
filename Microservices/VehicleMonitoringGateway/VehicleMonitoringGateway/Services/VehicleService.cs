@@ -17,6 +17,7 @@ namespace VehicleMonitoringGateway.Services
         private string _vehicleEndpoint = "get-by-id";
         private string _gatewayRoadController = "api/monitoring-location";
         private string _gatewayRoadEndpoint = "get-newest";
+        private string _gatewayTrafficEndpoint = "get-traffic-data";
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -48,6 +49,11 @@ namespace VehicleMonitoringGateway.Services
                                                                                  new StringContent(JsonSerializer.Serialize(DTO), Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();
                 retValue.LocationDataList = await JsonSerializer.DeserializeAsync<List<LocationData>>(await response.Content.ReadAsStreamAsync());
+
+                response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.MonitoringGatewayLocation + "/" + _gatewayRoadController + "/" + _gatewayTrafficEndpoint + "/",
+                                                                                 new StringContent(JsonSerializer.Serialize(DTO), Encoding.UTF8, "application/json"));
+                response.EnsureSuccessStatusCode();
+                retValue.LocationTrafficDataList = await JsonSerializer.DeserializeAsync<List<LocationTrafficData>>(await response.Content.ReadAsStreamAsync());
             }
             
             return retValue;

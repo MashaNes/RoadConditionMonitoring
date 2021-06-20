@@ -9,5 +9,6 @@ namespace VehicleMonitoringGateway.Entities
     {
         public VehicleData VehicleData { get; set; }
         public List<LocationData> LocationDataList { get; set; }
+        public List<LocationTrafficData> LocationTrafficDataList { get; set; }
     }
 }

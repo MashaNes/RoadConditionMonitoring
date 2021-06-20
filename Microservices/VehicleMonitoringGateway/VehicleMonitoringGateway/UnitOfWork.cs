@@ -34,7 +34,7 @@ namespace VehicleMonitoringGateway
             get { return this._vehicleMicroserviceLocation; }
         }
 
-        private string _monitoringGatewayLocation = "http://192.168.0.26:49159";
+        private string _monitoringGatewayLocation = "http://192.168.0.26:49157";
         public string MonitoringGatewayLocation
         {
             get { return this._monitoringGatewayLocation; }
