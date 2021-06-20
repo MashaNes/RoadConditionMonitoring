@@ -30,6 +30,12 @@
 			&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;StationName, StationLocation, DateTime, RecordId, RoadSurfaceTemperature, AirTemperature  
 		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Dataset used: https://www.kaggle.com/city-of-seattle/seattle-road-weather-information-stations  
 	&ensp;&ensp;&ensp;}  
+	&ensp;&ensp;&ensp;python-sensor-vehicle  
+	&ensp;&ensp;&ensp;{  
+	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Contents of the "Sensor devices/Vehicle sensor" folder from the repository plus a "nis-trajectories.csv" file containing data with the following format:  
+	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;timestep_time, vehicle_angle, vehicle_id, vehicle_lane, vehicle_pos, vehicle_slope, vehicle_speed, vehicle_type, vehicle_x, vehicle_y  
+	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// SUMO simulator used (https://www.eclipse.org/sumo/), with FCDOutput (https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html)  
+	&ensp;&ensp;&ensp;}  
  }  
  <br/>
  Kafka instance located on localhost:29092 should have topics "Temperature" and "AirQuality" with no key and string value  
@@ -39,7 +45,10 @@
  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Advanced/Bootstrap servers: localhost:29092  
  <br/>
  cassandra-temp should have the script from repo/Cassandra/Temperature.txt executed in cqlsh  
- cassandra-air should have the script from repo/Cassandra/AirQuality.txt executed in cqlsh  
+ cassandra-air should have the script from repo/Cassandra/AirQuality.txt executed in cqlsh    
+ cassandra-vehicle should have the script from repo/Cassandra/VehicleLocation.txt executed in cqlsh    
+ cassandra-traffic should have the script from repo/Cassandra/Traffic.txt executed in cqlsh  
  <br/>
  Run "docker compose build" and "docker compose up" in the directory where "docker-compose.yml" is located  
+ Edit the ip address in repo/Microservices/SparkProcessing/src/main/java/SparkProcessing.java to fit your private ip address and follow the instructions at repo/Microservices/SparkProcessing/start.txt to start the Spark instance  
  
