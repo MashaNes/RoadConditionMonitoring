@@ -5,7 +5,6 @@
  <br/>
 ![architecture image](https://github.com/MashaNes/RoadConditionMonitoring/blob/main/Architecture.png)  
 <br/>
-<div style="text-align: justify">
 There are three types of environment sensors - air and road temeprature sensor (Farenheit), air quality sensor and a combined sensor measuring both the temeprature of the road and air in Ferenheit and 
 the air quality. 
 There is also a set of sensors connected to vehicles, providing the system with information about the location and speed of all connected vehicles.
@@ -32,4 +31,3 @@ and regarding traffic. It also offers a SignalR connection to clients wishing to
 <b>Vehicle monitoring gateway</b> is an entry point for clients wanting the information about road conditions in an area surrounding a certain vehicle.
 It provides an API for getting relevant information based on a provided vehicle id and a radius of the area of interest.  
 <br/>
-</div>
