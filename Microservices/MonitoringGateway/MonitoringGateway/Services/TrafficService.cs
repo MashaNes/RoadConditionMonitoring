@@ -14,7 +14,7 @@ namespace MonitoringGateway.Services
 {
     public class TrafficService : ITrafficService
     {
-        private readonly string serviceLocation = "http://192.168.0.26:49155";
+        private readonly string serviceLocation = "http://trafficmicroservice:80";
         private readonly string controller = "api/traffic_microservice";
         private readonly string globalEndpoint = "get-global-data";
         private readonly string locationAllEndpoint = "get-available-location-data";

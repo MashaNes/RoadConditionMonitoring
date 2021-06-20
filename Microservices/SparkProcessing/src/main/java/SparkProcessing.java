@@ -36,7 +36,7 @@ public class SparkProcessing {
         SparkConf sparkConf = new SparkConf()
                               .setAppName("JavaDirectKafkaWordCount")
                               .set("spark.cassandra.connection.host", "192.168.0.26")
-                              .set("spark.cassandra.connection.port", "9042")
+                              .set("spark.cassandra.connection.port", "9046")
                               .set("spark.cassandra.connection.keep_alive_ms", "10000");
         JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(10));
         

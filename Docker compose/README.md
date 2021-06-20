@@ -19,12 +19,8 @@
 	&ensp;&ensp;&ensp;{  
 		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-1,  
 		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-2,  
-		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-3,  
-		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-4,  
-		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-5,  
-		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-6,  
-		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-7,  
-		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-8  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;...  
+		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;python-sensor-temp-n  
 		<br/>
 		&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Each subfolder should contain the contents of the "Sensor devices/Temperature sensor" folder from the repository plus a"road-weather-information-station.csv" file with the following format:  
 			&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;StationName, StationLocation, DateTime, RecordId, RoadSurfaceTemperature, AirTemperature  
@@ -34,20 +30,19 @@
 	&ensp;&ensp;&ensp;{  
 	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// Contents of the "Sensor devices/Vehicle sensor" folder from the repository plus a "nis-trajectories.csv" file containing data with the following format:  
 	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;timestep_time, vehicle_angle, vehicle_id, vehicle_lane, vehicle_pos, vehicle_slope, vehicle_speed, vehicle_type, vehicle_x, vehicle_y  
-	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// SUMO simulator used (https://www.eclipse.org/sumo/), with FCDOutput (https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html)  
+	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// SUMO simulator used (https://www.eclipse.org/sumo/), with FCD output (https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html)  
 	&ensp;&ensp;&ensp;}  
  }  
  <br/>
- Kafka instance located on localhost:29092 should have topics "Temperature" and "AirQuality" with no key and string value  
+ Kafka instance located on localhost:29092 should have topics "Temperature" and "AirQuality" with no key and string value and "VehicleLocation" with string key and string value  
  &ensp;&ensp;&ensp;Connection can be initialized through Kafka GUI tool - Offset Explorer (https://kafkatool.com/download.html)  
  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Zookeeper Port: 22181  
  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Zookeeper Host: localhost  
  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Advanced/Bootstrap servers: localhost:29092  
  <br/>
- cassandra-temp should have the script from repo/Cassandra/Temperature.txt executed in cqlsh  
- cassandra-air should have the script from repo/Cassandra/AirQuality.txt executed in cqlsh    
- cassandra-vehicle should have the script from repo/Cassandra/VehicleLocation.txt executed in cqlsh    
- cassandra-traffic should have the script from repo/Cassandra/Traffic.txt executed in cqlsh  
+ cassandra1 should have the script from repo/Cassandra/Temperature.txt and repo/Cassandra/Traffic.txt executed in cqlsh  
+ cassandra2 should have the script from repo/Cassandra/AirQuality.txt and repo/Cassandra/VehicleLocation.txt executed in cqlsh  
+ It would be best for each microservice to have a seperate cassandra instance, but due to the lack of available RAM it is possible to bundle them up together (like here)  
  <br/>
  Run "docker compose build" and "docker compose up" in the directory where "docker-compose.yml" is located  
  Edit the ip address in repo/Microservices/SparkProcessing/src/main/java/SparkProcessing.java to fit your private ip address and follow the instructions at repo/Microservices/SparkProcessing/start.txt to start the Spark instance  

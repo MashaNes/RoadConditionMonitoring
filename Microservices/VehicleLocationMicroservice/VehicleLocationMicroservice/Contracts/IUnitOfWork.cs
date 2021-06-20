@@ -10,7 +10,7 @@ namespace VehicleLocationMicroservice.Contracts
     public interface IUnitOfWork
     {
         ISession CassandraSession { get; }
-        IConsumer<Null, string> KafkaConsumer { get; }
+        IConsumer<string, string> KafkaConsumer { get; }
         string KafkaTopic { get; }
         string TableData { get; }
     }

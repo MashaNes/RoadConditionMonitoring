@@ -17,7 +17,7 @@ namespace VehicleLocationMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-vehicle").Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra2").Build();
                     this._cassandraSession = cluster.Connect("vehicle_location_data");
                 }
 
@@ -25,9 +25,9 @@ namespace VehicleLocationMicroservice
             }
         }
 
-        private IConsumer<Null, string> _kafkaConsumer;
+        private IConsumer<string, string> _kafkaConsumer;
 
-        public IConsumer<Null, string> KafkaConsumer
+        public IConsumer<string, string> KafkaConsumer
         {
             get
             {
@@ -42,7 +42,7 @@ namespace VehicleLocationMicroservice
                         EnableAutoOffsetStore = false
                     };
 
-                    _kafkaConsumer = new ConsumerBuilder<Null, string>(config).Build();
+                    _kafkaConsumer = new ConsumerBuilder<string, string>(config).Build();
                 }
 
                 return _kafkaConsumer;

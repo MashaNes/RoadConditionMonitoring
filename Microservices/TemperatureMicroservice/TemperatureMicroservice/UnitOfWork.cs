@@ -17,7 +17,7 @@ namespace TemperatureMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-temp").Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra1").Build();
                     this._cassandraSession = cluster.Connect("temperature_data");
                 }
 

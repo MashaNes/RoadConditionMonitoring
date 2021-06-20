@@ -31,7 +31,7 @@ namespace VehicleLocationMicroservice.Services
             while (!stoppingToken.IsCancellationRequested)
             {
 				Console.WriteLine("Try get data");
-                ConsumeResult<Null, string> data = _unitOfWork.KafkaConsumer.Consume(TimeSpan.FromSeconds(1));
+                ConsumeResult<string, string> data = _unitOfWork.KafkaConsumer.Consume(TimeSpan.FromSeconds(1));
                 if (data is not null)
                 {
 					Console.WriteLine("Getting data " + data.Message.Value);

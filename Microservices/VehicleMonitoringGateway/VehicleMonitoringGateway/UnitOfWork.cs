@@ -28,13 +28,13 @@ namespace VehicleMonitoringGateway
             }
         }
 
-        private string _vehicleMicroserviceLocation = "http://192.168.0.26:49160";
+        private string _vehicleMicroserviceLocation = "http://vehiclelocationmicroservice:80";
         public string VehicleMicroserviceLocation
         {
             get { return this._vehicleMicroserviceLocation; }
         }
 
-        private string _monitoringGatewayLocation = "http://192.168.0.26:49157";
+        private string _monitoringGatewayLocation = "http://monitoringgateway:80";
         public string MonitoringGatewayLocation
         {
             get { return this._monitoringGatewayLocation; }

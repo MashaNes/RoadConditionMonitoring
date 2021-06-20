@@ -16,7 +16,7 @@ namespace TrafficMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-traffic").Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra1").Build();
                     this._cassandraSession = cluster.Connect("traffic_data");
                 }
 

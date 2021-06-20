@@ -35,54 +35,10 @@ services:
     build: "Docker images/python-sensor-temp/python-sensor-temp-1"
     ports:
       - "5001:5000"
-  python-sensor-temp-2:
-    build: "Docker images/python-sensor-temp/python-sensor-temp-2"
-    ports:
-      - "5002:5000"
-  python-sensor-temp-3:
-    build: "Docker images/python-sensor-temp/python-sensor-temp-3"
-    ports:
-      - "5003:5000"
-  python-sensor-temp-4:
-    build: "Docker images/python-sensor-temp/python-sensor-temp-4"
-    ports:
-      - "5004:5000"
-  python-sensor-temp-5:
-    build: "Docker images/python-sensor-temp/python-sensor-temp-5"
-    ports:
-      - "5005:5000"
-  python-sensor-temp-6:
-    build: "Docker images/python-sensor-temp/python-sensor-temp-6"
-    ports:
-      - "5006:5000"
-  python-sensor-temp-7:
-    build: "Docker images/python-sensor-temp/python-sensor-temp-7"
-    ports:
-      - "5007:5000"
-  python-sensor-temp-8:
-    build: "Docker images/python-sensor-temp/python-sensor-temp-8"
-    ports:
-      - "5008:5000"
   python-sensor-air-1:
     build: "Docker images/python-sensor-air"
     ports:
       - "5011:5000"
-  python-sensor-air-2:
-    build: "Docker images/python-sensor-air"
-    ports:
-      - "5012:5000"
-  python-sensor-air-3:
-    build: "Docker images/python-sensor-air"
-    ports:
-      - "5013:5000"
-  python-sensor-air-4:
-    build: "Docker images/python-sensor-air"
-    ports:
-      - "5014:5000"
-  python-sensor-air-5:
-    build: "Docker images/python-sensor-air"
-    ports:
-      - "5015:5000"
   python-sensor-combined-1:
     build: "Docker images/python-sensor-combined"
     ports:
@@ -91,10 +47,6 @@ services:
     build: "Docker images/python-sensor-combined"
     ports:
       - "5032:5000"
-  python-sensor-combined-3:
-    build: "Docker images/python-sensor-combined"
-    ports:
-      - "5033:5000"
   python-sensor-vehicle:
     build: "Docker images/python-sensor-vehicle"
   temperaturemicroservice:
@@ -105,11 +57,11 @@ services:
     ports: 
       - "49161:80"
     hostname: "temperaturemicroservice"
-  cassandra-temp:
+  cassandra2:
     image: cassandra
     ports:
       - "9043:9042"
-    hostname: "cassandra-temp"
+    hostname: "cassandra2"
   airqualitymicroservice:
     image: ${DOCKER_REGISTRY-}airqualitymicroservice
     build:
@@ -118,11 +70,6 @@ services:
     ports: 
       - "49162:80"
     hostname: "airqualitymicroservice"
-  cassandra-air:
-    image: cassandra
-    ports:
-      - "9044:9042"
-    hostname: "cassandra-air"
   vehiclegateway:
     image: ${DOCKER_REGISTRY-}vehiclegateway
     build:
@@ -137,11 +84,6 @@ services:
     hostname: "vehiclelocationmicroservice"
     ports:
       - "49160:80"
-  cassandra-vehicle:
-    image: cassandra
-    ports:
-      - "9045:9042"
-    hostname: "cassandra-vehicle"
   trafficmicroservice:
     image: ${DOCKER_REGISTRY-}trafficmicroservice
     build:
@@ -150,8 +92,24 @@ services:
     hostname: "trafficmicroservice"
     ports:
       - "49155:80"
-  cassandra-traffic:
+  cassandra1:
     image: cassandra
     ports:
       - "9046:9042"
-    hostname: "cassandra-traffic"
+    hostname: "cassandra1"
+  monitoringgateway:
+    image: ${DOCKER_REGISTRY-}monitoringgateway
+    build:
+      context: RoadConditionMonitoring/Microservices/MonitoringGateway
+      dockerfile: MonitoringGateway/Dockerfile
+    hostname: "monitoringgateway"
+    ports:
+      - "49164:80"
+  vehiclemonitoringgateway:
+    image: ${DOCKER_REGISTRY-}vehiclemonitoringgateway
+    build:
+      context: RoadConditionMonitoring/Microservices/VehicleMonitoringGateway
+      dockerfile: VehicleMonitoringGateway/Dockerfile
+    hostname: "vehiclemonitoringgateway"
+    ports:
+      - "49166:80"

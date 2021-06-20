@@ -4,6 +4,9 @@
     "title": "VehicleMonitoringGateway",
     "version": "v1"
   },
+  "servers" : [ {
+    "url" : "http://localhost:49166"
+  } ],
   "paths": {
     "/api/vehicle/get-info/{vehicleId}/{radius}": {
       "get": {

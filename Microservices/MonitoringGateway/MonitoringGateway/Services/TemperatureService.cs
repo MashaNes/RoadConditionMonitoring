@@ -13,7 +13,7 @@ namespace MonitoringGateway.Services
 {
     public class TemperatureService : ITemperatureService
     {
-        private readonly string serviceLocation = "http://192.168.0.26:49161";
+        private readonly string serviceLocation = "http://temperaturemicroservice:80";
         private readonly string controller = "api/temp_microservice";
         private readonly string newestEndpoint = "get-newest-data";
         private readonly string averageEndpoint = "get-data-average";

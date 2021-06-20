@@ -38,10 +38,10 @@ namespace MonitoringGateway
             services.AddTransient<IAggregationService, AggregationService>();
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<ITrafficService, TrafficService>();
-            /*services.AddHostedService<MessageNewestService>();
+            services.AddHostedService<MessageNewestService>();
             services.AddHostedService<MessageAverageHService>();
             services.AddHostedService<MessageAverageDayService>();
-            services.AddHostedService<MessageTrafficService>();*/
+            services.AddHostedService<MessageTrafficService>();
             services.AddControllers();
             services.AddCors(options =>
             {

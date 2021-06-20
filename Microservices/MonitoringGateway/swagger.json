@@ -4,6 +4,9 @@
     "title": "MonitoringGateway",
     "version": "v1"
   },
+  "servers" : [ {
+    "url" : "http://localhost:49164"
+  } ],
   "paths": {
     "/api/monitoring-location/get-newest": {
       "post": {

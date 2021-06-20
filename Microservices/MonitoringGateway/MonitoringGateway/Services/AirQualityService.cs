@@ -13,7 +13,7 @@ namespace MonitoringGateway.Services
 {
     public class AirQualityService : IAirQualityService
     {
-        private readonly string serviceLocation = "http://192.168.0.26:49162";
+        private readonly string serviceLocation = "http://airqualitymicroservice:80";
         private readonly string controller = "api/air_quality_microservice";
         private readonly string newestEndpoint = "get-newest-data";
         private readonly string averageEndpoint = "get-data-average";

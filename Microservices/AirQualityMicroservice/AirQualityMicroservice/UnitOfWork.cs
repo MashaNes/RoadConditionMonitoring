@@ -17,7 +17,7 @@ namespace AirQualityMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-air").Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra2").Build();
                     this._cassandraSession = cluster.Connect("air_quality_data");
                 }
 
