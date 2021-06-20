@@ -21,7 +21,8 @@ namespace VehicleGateway.Services
         {
             newData.VehicleSpeed = convertSpeedToKMH(newData.VehicleSpeed);
             string SerializedData = JsonSerializer.Serialize(newData);
-            Produce(SerializedData);
+			Console.WriteLine(SerializedData);
+            Produce(newData.VehicleId.ToString(), SerializedData);
             return true;
         }
 

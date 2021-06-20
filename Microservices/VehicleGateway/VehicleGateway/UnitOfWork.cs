@@ -9,9 +9,9 @@ namespace VehicleGateway
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private IProducer<Null, string> _kafkaProducer;
+        private IProducer<string, string> _kafkaProducer;
 
-        public IProducer<Null, string> KafkaProducer
+        public IProducer<string, string> KafkaProducer
         {
             get
             {
@@ -25,7 +25,7 @@ namespace VehicleGateway
                         LingerMs = 100
                     };
 
-                    this._kafkaProducer = new ProducerBuilder<Null, string>(config).Build();
+                    this._kafkaProducer = new ProducerBuilder<string, string>(config).Build();
                 }
 
                 return _kafkaProducer;

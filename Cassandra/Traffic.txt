@@ -1,0 +1,18 @@
+create keyspace traffic_data
+with replication = {'class':'SimpleStrategy','replication_factor':1};
+
+use traffic_data;
+
+create table general_traffic
+("paramname" VARCHAR,
+"value" DOUBLE,
+PRIMARY KEY("paramname")
+);
+
+create table location_traffic
+("latitude" DOUBLE,
+"longitude" DOUBLE,
+"paramname" VARCHAR,
+"value" DOUBLE,
+PRIMARY KEY("latitude", "longitude", "paramname")
+);

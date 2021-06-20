@@ -19,12 +19,14 @@ namespace VehicleGateway.Services
             this.Topic = Topic;
         }
 
-        public void Produce(string Data)
+        public void Produce(string Key, string Data)
         {
-            _unitOfWork.KafkaProducer.Produce(Topic, new Message<Null, string> { Value = Data }, handler);
+			Console.WriteLine("Producing message");
+            _unitOfWork.KafkaProducer.Produce(Topic, new Message<string, string> { Key = Key, Value = Data }, handler);
+			Console.WriteLine("Message produced");
         }
 
-        private void handler(DeliveryReport<Null, string> report)
+        private void handler(DeliveryReport<string, string> report)
         {
             if (report.Error.IsError == true)
             {

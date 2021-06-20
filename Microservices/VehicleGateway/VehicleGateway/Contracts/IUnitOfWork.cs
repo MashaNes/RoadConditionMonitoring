@@ -8,7 +8,7 @@ namespace VehicleGateway.Contracts
 {
     public interface IUnitOfWork
     {
-        IProducer<Null, string> KafkaProducer { get; }
+        IProducer<string, string> KafkaProducer { get; }
         string TopicVehicle { get; }
     }
 }
