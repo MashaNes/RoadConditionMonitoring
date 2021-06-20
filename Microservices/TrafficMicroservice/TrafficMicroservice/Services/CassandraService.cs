@@ -12,6 +12,8 @@ namespace TrafficMicroservice.Services
     {
         public GlobalTraffic ConvertCassandraGlobalRow(Row instance)
         {
+            if (instance is null)
+                return null;
             GlobalTraffic globalTraffic = new GlobalTraffic();
             globalTraffic.ParamName = instance["paramname"].ToString();
             globalTraffic.Value = (double)instance["value"];
@@ -20,6 +22,8 @@ namespace TrafficMicroservice.Services
 
         public LocationTraffic ConvertCassandraLocationRow(Row instance)
         {
+            if (instance is null)
+                return null;
             LocationTraffic locationTraffic = new LocationTraffic();
             locationTraffic.Latitude = (double)instance["latitude"];
             locationTraffic.Longitude = (double)instance["longitude"];

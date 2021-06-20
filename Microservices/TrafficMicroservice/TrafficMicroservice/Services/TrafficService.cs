@@ -25,7 +25,7 @@ namespace TrafficMicroservice.Services
             GlobalTraffic numVehicles =_cassandraService.ConvertCassandraGlobalRow(
                 _unitOfWork.CassandraSession.Execute(_cassandraService.SelectWhereQuery(_unitOfWork.TableGeneral, "paramname", "vehicle_number"))
                                             .FirstOrDefault());
-            if (numVehicles.Value == 0)
+            if (numVehicles is null || numVehicles.Value == 0)
                 return new TrafficData() { VehicleNumber = 0, AverageSpeed = 0 };
             
             GlobalTraffic speedCount = _cassandraService.ConvertCassandraGlobalRow(
