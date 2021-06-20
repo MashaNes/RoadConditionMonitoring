@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficMicroservice", "TrafficMicroservice\TrafficMicroservice.csproj", "{ECB40251-8221-46AF-84FB-9C8C90257741}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECB40251-8221-46AF-84FB-9C8C90257741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECB40251-8221-46AF-84FB-9C8C90257741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECB40251-8221-46AF-84FB-9C8C90257741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECB40251-8221-46AF-84FB-9C8C90257741}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {439C91C9-99D3-4469-9C92-31F1F5250CCF}
+	EndGlobalSection
+EndGlobal
