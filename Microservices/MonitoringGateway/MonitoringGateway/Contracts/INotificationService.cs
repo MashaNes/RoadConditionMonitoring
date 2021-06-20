@@ -11,5 +11,6 @@ namespace MonitoringGateway.Contracts
         Task NotifyNewest(List<LocationData> data);
         Task NotifyAverageH(List<AverageLocationData> data);
         Task NotifyAverageDay(List<AverageLocationData> data);
+        Task NotifyTraffic(AllTrafficData data);
     }
 }

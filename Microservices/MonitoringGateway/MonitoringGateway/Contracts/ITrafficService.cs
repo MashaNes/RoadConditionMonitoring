@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MonitoringGateway.Entities;
+using MonitoringGateway.Entities.Acquisition;
+using MonitoringGateway.DTOs;
 
 namespace MonitoringGateway.Contracts
 {
-    public interface ISubscriptionDataService
+    public interface ITrafficService
     {
-        Task<List<LocationData>> GetNewest();
-        Task<List<AverageLocationData>> GetAverageH();
-        Task<List<AverageLocationData>> GetAverageDay();
         Task<AllTrafficData> GetAllTrafficData();
+        Task<List<LocationTrafficData>> GetLocationTrafficData(LocationRadiusDTO locationInfo);
     }
 }

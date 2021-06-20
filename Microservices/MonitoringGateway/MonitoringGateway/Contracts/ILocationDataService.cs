@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MonitoringGateway.Entities;
 using MonitoringGateway.DTOs;
+using MonitoringGateway.Entities.Acquisition;
 
 namespace MonitoringGateway.Contracts
 {
@@ -15,5 +16,6 @@ namespace MonitoringGateway.Contracts
         Task<List<AverageLocationData>> GetAverage(AverageDTO averageInfo);
         Task<List<LocationDataList>> GetAll(LocationRadiusDTO locationInfo);
         Task<List<LocationDataList>> GetTimeframe(LocationTimeDTO locationTimeInfo);
+        Task<List<LocationTrafficData>> GetTrafficData(LocationRadiusDTO locationInfo);
     }
 }

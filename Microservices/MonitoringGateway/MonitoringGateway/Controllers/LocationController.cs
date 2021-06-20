@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MonitoringGateway.Contracts;
 using MonitoringGateway.DTOs;
 using MonitoringGateway.Entities;
+using MonitoringGateway.Entities.Acquisition;
 
 namespace MonitoringGateway.Controllers
 {
@@ -66,6 +67,14 @@ namespace MonitoringGateway.Controllers
         public async Task<ActionResult> GetTimeframe([FromBody] LocationTimeDTO locationTIme)
         {
             List<LocationDataList> retVal = await _locationDataService.GetTimeframe(locationTIme);
+            return Ok(retVal);
+        }
+
+        [HttpPost]
+        [Route("get-traffic-data")]
+        public async Task<ActionResult> GetTrafficData([FromBody] LocationRadiusDTO location)
+        {
+            List<LocationTrafficData> retVal = await _locationDataService.GetTrafficData(location);
             return Ok(retVal);
         }
     }

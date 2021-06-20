@@ -4,9 +4,6 @@
     "title": "MonitoringGateway",
     "version": "v1"
   },
-  "servers" : [ {
-    "url" : "http://localhost:49163"
-  } ],
   "paths": {
     "/api/monitoring-location/get-newest": {
       "post": {
@@ -194,6 +191,37 @@
         }
       }
     },
+    "/api/monitoring-location/get-traffic-data": {
+      "post": {
+        "tags": [
+          "Location"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/monitoring-subscription/get-newest": {
       "get": {
         "tags": [
@@ -219,6 +247,18 @@
       }
     },
     "/api/monitoring-subscription/get-average-per-day": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/monitoring-subscription/get-traffic-data": {
       "get": {
         "tags": [
           "Subscription"

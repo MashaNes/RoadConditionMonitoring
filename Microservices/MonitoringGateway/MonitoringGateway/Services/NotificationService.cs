@@ -37,5 +37,11 @@ namespace MonitoringGateway.Services
             Console.WriteLine("Notify average per day clients.");
             await _hubContext.Clients.Group(MessageHub.AverageDayGroup).SendAsync(MessageHub.AverageDayMethod, data);
         }
+
+        public async Task NotifyTraffic(AllTrafficData data)
+        {
+            Console.WriteLine("Notify traffic clients.");
+            await _hubContext.Clients.Group(MessageHub.TrafficGroup).SendAsync(MessageHub.TrafficMethod, data);
+        }
     }
 }

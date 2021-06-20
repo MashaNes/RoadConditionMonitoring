@@ -14,12 +14,17 @@ namespace MonitoringGateway.Services
         private readonly ITemperatureService _temperatureService;
         private readonly IAirQualityService _airQualityService;
         private readonly IAggregationService _aggregationService;
+        private readonly ITrafficService _trafficService;
 
-        public SubscriptionDataService(ITemperatureService temperatureService, IAirQualityService airQualityService, IAggregationService aggregationService)
+        public SubscriptionDataService(ITemperatureService temperatureService, 
+                                       IAirQualityService airQualityService, 
+                                       IAggregationService aggregationService, 
+                                       ITrafficService trafficService)
         {
             this._airQualityService = airQualityService;
             this._temperatureService = temperatureService;
             this._aggregationService = aggregationService;
+            this._trafficService = trafficService;
         }
 
         public async Task<List<LocationData>> GetNewest()
@@ -44,6 +49,11 @@ namespace MonitoringGateway.Services
             List<AverageAirQualityData> airQualities = await _airQualityService.GetAveragePerDay();
 
             return _aggregationService.AggregateAverage(temps, airQualities);
+        }
+
+        public async Task<AllTrafficData> GetAllTrafficData()
+        {
+            return await _trafficService.GetAllTrafficData();
         }
     }
 }

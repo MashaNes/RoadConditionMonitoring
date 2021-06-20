@@ -12,16 +12,20 @@ namespace MonitoringGateway.Services.MessagingService
         private static string _newestGroup = "newest";
         private static string _averageHGroup = "averageH";
         private static string _averageDayGroup = "averageDay";
+        private static string _trafficGroup = "traffic";
         private static string _newestMethod = "new_newest";
         private static string _averageHMethod = "new_averageH";
         private static string _averageDayMethod = "new_averageDay";
+        private static string _trafficMethod = "new_traffic";
 
         public static string NewestGroup { get { return _newestGroup; } }
         public static string AverageHGroup { get { return _averageHGroup; } }
         public static string AverageDayGroup { get { return _averageDayGroup; } }
+        public static string TrafficGroup { get { return _trafficGroup; } }
         public static string NewestMethod { get { return _newestMethod; } }
         public static string AverageHMethod { get { return _averageHMethod; } }
         public static string AverageDayMethod { get { return _averageDayMethod; } }
+        public static string TrafficMethod { get { return _trafficMethod; } }
 
         public async Task NotifyNewest(List<LocationData> data)
         {
@@ -36,6 +40,11 @@ namespace MonitoringGateway.Services.MessagingService
         public async Task NotifyAverageDay(List<AverageLocationData> data)
         {
             await Clients.Group(_averageDayGroup).SendAsync(_averageDayMethod, data);
+        }
+
+        public async Task NotifyTraffic(AllTrafficData data)
+        {
+            await Clients.Group(_trafficGroup).SendAsync(_trafficMethod, data);
         }
 
         public async Task<string> JoinNewestGroup()
@@ -56,6 +65,12 @@ namespace MonitoringGateway.Services.MessagingService
             return "Joined group " + _averageDayGroup;
         }
 
+        public async Task<string> JoinTrafficGroup()
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, _trafficGroup);
+            return "Joined group " + _trafficGroup;
+        }
+
         public async Task<string> LeaveNewestGroup()
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, _newestGroup);
@@ -72,6 +87,12 @@ namespace MonitoringGateway.Services.MessagingService
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, _averageDayGroup);
             return "Left group " + _averageDayGroup;
+        }
+
+        public async Task<string> LeaveTrafficGroup()
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, _trafficGroup);
+            return "Left group " + _trafficGroup;
         }
     }
 }

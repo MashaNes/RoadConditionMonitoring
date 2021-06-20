@@ -43,5 +43,13 @@ namespace MonitoringGateway.Controllers
             List<AverageLocationData> retVal = await _subscriptionDataService.GetAverageDay();
             return Ok(retVal);
         }
+
+        [HttpGet]
+        [Route("get-traffic-data")]
+        public async Task<ActionResult> GetTrafficData()
+        {
+            AllTrafficData retVal = await _subscriptionDataService.GetAllTrafficData();
+            return Ok(retVal);
+        }
     }
 }
