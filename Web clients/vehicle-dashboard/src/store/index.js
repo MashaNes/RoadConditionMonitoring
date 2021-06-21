@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         current_vehicle: 0,
+        first_enter: true,
         is_data_loaded: true,
         vehicle_data: null,
         location_data_list: [],
@@ -21,12 +22,60 @@ export default new Vuex.Store({
 
     },
     actions: {
+        /*getFilterStation({commit}, payload)
+        {
+            fetch("http://"+this.state.backend_host+":"+this.state.backend_port+"/api/data/get-filtered-station", {
+                method: 'POST',
+                mode: "cors",
+                headers: {
+                    "Content-type" : "application/json",
+                },
+                body: JSON.stringify(payload)
+            }).then(response => {
+                if(response.ok) {
+                    response.json().then(data => {
+                        this.state.temp_data = data
+                        this.state.is_temp_data_loaded = true
+                    })
+                }
+                else {
+                    this.state.is_temp_data_loaded = true
+                    console.log(response)
+                }
+            })
+        },*/
         getVehicleData({commit}, payload)
         {
+            this.state.first_enter = false
             this.state.is_data_loaded = false
             console.log("getting data")
             console.log(payload)
-            this.state.vehicle_data = {
+            
+            fetch("http://"+this.state.backend_host+":"+this.state.backend_port+"/api/vehicle/get-info/" + payload.id + "/" + payload.radius, {
+                method: "GET",
+                headers: {
+                  "Content-type" : "application/json"
+                }
+              }).then(response => {
+                if(response.ok) {
+                  response.json().then(data => {
+                    console.log(data)
+                    this.state.vehicle_data = data.VehicleData
+                    this.state.location_data_list = data.LocationDataList
+                    this.state.location_traffic_data_list = data.LocationTrafficDataList
+                    this.state.is_data_loaded = true
+                  })
+                }
+                else {      
+                    this.state.vehicle_data = null
+                    this.state.location_data_list = []
+                    this.state.location_traffic_data_list = []         
+                    this.state.is_data_loaded = true
+                    console.log(response)
+                }
+              })
+
+            /*this.state.vehicle_data = {
                 "VehicleId": 5,
                 "VehicleSpeed": 0,
                 "Latitude": 43.31713163049042,
@@ -218,7 +267,7 @@ export default new Vuex.Store({
                     }
                 }
             ]
-            this.state.is_data_loaded = true
+            this.state.is_data_loaded = true*/
         }
     },
     modules: {

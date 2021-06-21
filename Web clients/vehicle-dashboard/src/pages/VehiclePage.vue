@@ -13,8 +13,8 @@
         </div>
         <div class="mapa">
             <label class="no-data" v-if="isDataLoaded && !vehicleData"> No data is currently available for this vehicle </label>
-            <Spinner v-if="!isDataLoaded" />
-            <GmapMap v-if="isDataLoaded && vehicleData"
+            <Spinner v-if="!isDataLoaded && isFirstEnter" />
+            <GmapMap v-if="(isDataLoaded || !isFirstEnter) && vehicleData"
                      :center="{lat:43.32050626745787, lng:21.90057819947256}"
                      :zoom="14"
                      style="width: 100%; height: 700px">
@@ -24,10 +24,6 @@
                             @mouseout="showVehicleInfo = false">
                     <gmap-info-window :opened="showVehicleInfo">
                         <div class="info-window">
-                            <span class="stavka"> 
-                                <label class="naziv"> Vehicle speed: </label>
-                                {{vehicleData.VehicleSpeed}} km/h 
-                            </span>
                             <span class="stavka"> 
                                 <label class="naziv"> Timestamp:  </label>
                                 {{vehicleData.Timestamp | showTime}} 
@@ -164,6 +160,10 @@ export default({
         {
             return this.$store.state.is_data_loaded
         },
+        isFirstEnter()
+        {
+            return this.$store.state.first_enter
+        },
         EnvironmentMarkers()
         {
             if(!this.environment)
@@ -202,7 +202,8 @@ export default({
     },
     beforeDestroy()
     {
-        clearInterval(this.intervalFunc)
+        clearInterval(this.intervalFunc)       
+        this.$store.state.first_enter = true
     }
 })
 </script>
