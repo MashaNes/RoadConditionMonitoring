@@ -103,7 +103,7 @@ public class SparkProcessing {
             //Stream containing total speed of all vehicles in POI in the last 5 minutes, calculated every minute
             JavaDStream<LocationTraffic> TotalPOISpeedStream = 
                     SpeedPOIStream.reduceByWindow((a, b) -> a + b, Durations.seconds(300), Durations.seconds(60))
-                                  .map(speed -> new LocationTraffic("speed_total", poi.getLatitude(), poi.getLongitude(), speed));
+                                  .map(speed -> new LocationTraffic("speed_total", poi.getLatitude(), poi.getLongitude(), poi.getRadius(),speed));
                 //Write total speed in POI to Cassandra
             javaFunctions(TotalPOISpeedStream).writerBuilder(
                 cassandraConfig.getKeyspace(), 
@@ -114,7 +114,7 @@ public class SparkProcessing {
             //Stream containing total speed info count for all vehicles in POI in the last 5 minutes, calculated every minute
             JavaDStream<LocationTraffic> CountPOISpeedStream = 
                     SpeedPOIStream.count().reduceByWindow((a, b) -> a + b, Durations.seconds(300), Durations.seconds(60))
-                                          .map(count -> new LocationTraffic("speed_count", poi.getLatitude(), poi.getLongitude(), count));
+                                          .map(count -> new LocationTraffic("speed_count", poi.getLatitude(), poi.getLongitude(),poi.getRadius(), count));
                 //Write total speed info count for POI to Cassandra
             javaFunctions(CountPOISpeedStream).writerBuilder(
                 cassandraConfig.getKeyspace(), 
@@ -130,7 +130,7 @@ public class SparkProcessing {
             //Stream contining number of vehicles in POI for a 5 minute window with a 1 minute stride
             JavaDStream<LocationTraffic> VehicleNumberPOIStream = 
                     DataPairPOIStream.count()
-                                     .map(number -> new LocationTraffic("vehicle_number", poi.getLatitude(), poi.getLongitude(), number));
+                                     .map(number -> new LocationTraffic("vehicle_number", poi.getLatitude(), poi.getLongitude(), poi.getRadius(), number));
                 //Write total number of vehicles in POI to Cassandra
             javaFunctions(VehicleNumberPOIStream).writerBuilder(
                 cassandraConfig.getKeyspace(), 

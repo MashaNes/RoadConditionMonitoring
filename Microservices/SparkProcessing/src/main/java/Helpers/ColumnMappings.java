@@ -17,6 +17,7 @@ public class ColumnMappings {
         locationTrafficMap.put("value", "value");
         locationTrafficMap.put("latitude", "latitude");
         locationTrafficMap.put("longitude", "longitude");
+        locationTrafficMap.put("radius", "radius");
     }
     
     public Map<String, String> getGeneralTrafficMap(){

@@ -29,6 +29,7 @@ namespace TrafficMicroservice.Services
             locationTraffic.Longitude = (double)instance["longitude"];
             locationTraffic.ParamName = instance["paramname"].ToString();
             locationTraffic.Value = (double)instance["value"];
+            locationTraffic.Radius = (double)instance["radius"];
             return locationTraffic;
         }
 

@@ -68,7 +68,7 @@ class DataAcquisition:
         n = sum(1 for line in open(filename)) - 1
         s = 1
         
-        time.sleep(10)
+        time.sleep(30)
 
         while True:
             skip = sorted(random.sample(range(1, n + 1), n - s))

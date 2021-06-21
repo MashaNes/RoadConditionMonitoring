@@ -13,6 +13,7 @@ create table location_traffic
 ("latitude" DOUBLE,
 "longitude" DOUBLE,
 "paramname" VARCHAR,
+"radius" DOUBLE,
 "value" DOUBLE,
 PRIMARY KEY("latitude", "longitude", "paramname")
 );

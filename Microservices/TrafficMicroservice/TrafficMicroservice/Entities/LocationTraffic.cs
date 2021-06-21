@@ -11,5 +11,6 @@ namespace TrafficMicroservice.Entities
         public double Longitude { get; set; }
         public String ParamName { get; set; }
         public double Value { get; set; }
+        public double Radius { get; set; }
     }
 }

@@ -2,7 +2,7 @@ import json
 import multiprocessing
 
 sensorType = "temp_and_air_quality"
-defaultSampleTime = 60
+defaultSampleTime = 120
 metadataLoc = "metadata.json"
 lock = multiprocessing.Lock()
 

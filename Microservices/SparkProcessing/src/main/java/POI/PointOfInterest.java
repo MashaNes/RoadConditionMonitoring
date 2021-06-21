@@ -7,7 +7,7 @@ public class PointOfInterest implements Serializable{
     private double Longitude;
     private double Radius; //meters
     
-    public PointOfInterest(double Latitude, double Longitude, double Radius){
+    public PointOfInterest(double Longitude, double Latitude, double Radius){
         this.Latitude = Latitude;
         this.Longitude = Longitude;
         this.Radius = Radius;

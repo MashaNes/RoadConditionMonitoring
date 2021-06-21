@@ -6,12 +6,14 @@ public class LocationTraffic implements Serializable {
     private String paramName;
     private double latitude;
     private double longitude;
+    private double radius;
     private double value;
     
-    public LocationTraffic(String ParamName, double Latitude, double Longitude, double Value){
+    public LocationTraffic(String ParamName, double Latitude, double Longitude, double Radius, double Value){
         this.paramName = ParamName;
         this.latitude = Latitude;
         this.longitude = Longitude;
+        this.radius = Radius;
         this.value = Value;
     }
     
@@ -25,6 +27,10 @@ public class LocationTraffic implements Serializable {
     
     public double getLongitude(){
         return this.longitude;
+    }
+    
+    public double getRadius(){
+        return this.radius;
     }
     
     public double getValue(){
@@ -43,12 +49,16 @@ public class LocationTraffic implements Serializable {
         this.longitude = longitude;
     }
     
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+    
     public void setValue(double value) {
         this.value = value;
     }
     
     @Override
     public String toString(){
-        return "LocationTraffic [ParamName=" + paramName +", Latitude" + latitude + ", Longitude" + longitude + ", Value=" + value + "]";
+        return "LocationTraffic [ParamName=" + paramName +", Latitude" + latitude + ", Longitude" + longitude + ", Radius=" + radius +", Value=" + value + "]";
     }
 }

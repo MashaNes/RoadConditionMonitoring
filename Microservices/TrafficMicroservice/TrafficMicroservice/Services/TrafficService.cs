@@ -85,6 +85,7 @@ namespace TrafficMicroservice.Services
             {
                 Latitude = locationTraffic.Latitude,
                 Longitude = locationTraffic.Longitude,
+                Radius = locationTraffic.Radius,
                 TrafficData = new TrafficData()
                 {
                     VehicleNumber = (int)locationTraffic.Value,

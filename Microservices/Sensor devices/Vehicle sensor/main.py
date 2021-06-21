@@ -62,7 +62,7 @@ while True:
     if len(next_step_data) > 0:
         for (i, data) in enumerate(next_step_data):
             if data[0] == time_ind:
-                vehicle_data = VehicleData(data[2], data[6], data[8], data[9])
+                vehicle_data = VehicleData(data[2], data[6], data[9], data[8])
                 send_data(vehicle_data)
                 index_to_delete = i
             else:
@@ -76,7 +76,7 @@ while True:
         index_to_delete = 0
         for (i, data) in enumerate(next_step_data):
             if data[0] == time_ind:
-                vehicle_data = VehicleData(data[2], data[6], data[8], data[9])
+                vehicle_data = VehicleData(data[2], data[6], data[9], data[8])
                 send_data(vehicle_data)
                 index_to_delete = i
             else:
@@ -88,4 +88,4 @@ while True:
         time.sleep(60)
         time_ind = 0
         skip_rows = 0
-    time.sleep(10)
+    time.sleep(30)

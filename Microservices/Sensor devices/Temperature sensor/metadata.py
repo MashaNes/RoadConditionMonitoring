@@ -2,7 +2,7 @@ import json
 import multiprocessing
 
 sensorType = "road_air_temp_F"
-defaultSampleTime = 60
+defaultSampleTime = 120
 defaultThresh = False
 defaultThreshValue = 0.1
 metadataLoc = "metadata.json"
