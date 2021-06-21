@@ -11,9 +11,9 @@ There is also a set of sensors connected to vehicles, providing the system with 
 <br/>
 <b><ins>Acqusition gateway</ins></b> collects data from environment sensors, converts the temepratures to Celsius and splits all acquired data to streams of air quality related data and temperature related data. Those streams are fed to the corresponding topics in Kafka.  
 <br/>
-<b><ins>Vehicle Gateway</ins></b> collects data from vehicle related sensors, converts the speed to km/h and sends the data to a corresponding Kafka topic.  
+<b><ins>Vehicle gateway</ins></b> collects data from vehicle related sensors, converts the speed to km/h and sends the data to a corresponding Kafka topic.  
 <br/>
-<b><ins>Temperature microservice</ins></b> and <b><ins>Air quality micorservice</ins></b> consume the temperature and air quality related data respectively.
+<b><ins>Temperature microservice</ins></b> and <b><ins>Air quality microservice</ins></b> consume the temperature and air quality related data respectively.
 Each microservice stores the consumed data in order to contain information about newest data for all locations, average data per hour and per day for all locations and also all consumed data.
 Both microservices offer APIs for filtering stored data based on location and time related parameters.  
 <br/>
