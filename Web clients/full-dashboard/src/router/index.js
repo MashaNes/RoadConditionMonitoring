@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomePage from "../pages/HomePage.vue"
+import LocationPage from "../pages/LocationPage.vue"
+import TimeframePage from "../pages/TimeframePage.vue"
 
 Vue.use(VueRouter)
 
@@ -9,6 +11,16 @@ const routes = [
         path: "/",
         name: "HomePage",
         component: HomePage
+    },
+    {
+      path: "/location-filter",
+      name: "LocationPage",
+      component: LocationPage
+    },
+    {
+      path: "/timeframe-filter",
+      name: "TimeframePage",
+      component: TimeframePage
     }
 ]
 

@@ -25,6 +25,10 @@ Vue.filter("showTime", function(date) {
   return moment(date).format("DD.MM.YYYY HH:mm:ss")
 })
 
+Vue.filter("round", function(value) {
+  return value.toFixed(4)
+})
+
 Vue.config.productionTip = false
 
 new Vue({

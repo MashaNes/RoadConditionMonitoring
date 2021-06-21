@@ -1,26 +1,41 @@
 <template>
     <div class="main-page">
         <div class="radius">
-            <select v-model="environmentSelect" class="selekt" @change="onSelectChange"> 
-                <option :value="1"> Newest data </option>
-                <option :value="2"> Average data per hour </option>
-                <option :value="3"> Average data per day </option>
+            <select v-model="searchOption" class="selekt" @change="clearSearch"> 
+                <option :value="index" v-for="(opcija, index) in options" :key="index+'o'">
+                     {{opcija}} 
+                </option>
             </select>
-        </div>
-        <div class="radius">
-            <label class="labela"> Filters: </label>        
-            <label class="labelica"> Environment </label>
-            <input type="checkbox" v-model="environment"/>        
+            <label class="labelica"> Radius (m) </label>
+            <input type="number" class="broj" v-model="radius" @change="redrawMap" />
             <label class="labelica"> Traffic </label>
-            <input type="checkbox" v-model="traffic"/>
+            <input type="checkbox" v-model="traffic" @change="clearSearch"/>
+            <div v-if="searchOption == 3 || searchOption == 4">
+                <label class="labelica"> Year </label>
+                <input type="number" class="broj" v-model="date.year"/>
+                <label class="labelica"> Month </label>
+                <input type="number" class="broj" v-model="date.month"/>
+                <label class="labelica"> Day </label>
+                <input type="number" class="broj" v-model="date.day"/>
+                <label class="labelica" v-if="searchOption == 3"> Hour </label>
+                <input type="number" class="broj" v-model="date.hour" v-if="searchOption == 3"/>
+            </div>
+            <button class="button btn-primary dugme" :disabled="!isButtonAvailable" @click="search"> Search </button>
         </div>
         <div class="mapa">
             <Spinner v-if="!isDataLoaded" />
             <GmapMap v-if="isDataLoaded"
+                     @click="mark"
                      :center="{lat:43.32050626745787, lng:21.90057819947256}"
                      :zoom="14"
                      style="width: 100%; height: 700px">
-                <GmapMarker :key="index"
+                <GmapMarker  v-model="location"
+                            :position="location"/>
+                <GmapCircle :center="location"
+                            :radius="parseFloat(radius)"
+                            :visible="true"
+                            :options="{fillColor:'blue',fillOpacity:0.1}" />
+                <GmapMarker :key="index + 'n'"
                             v-for="(m, index) in EnvironmentMarkersNewest"
                             :position="{lat:m.Latitude, lng:m.Longitude}"
                             :icon="{ url: require('../assets/environment.png')}"
@@ -86,7 +101,7 @@
                     </gmap-info-window>
                 </GmapMarker>
                 <GmapMarker :key="index + 'h'"
-                            v-for="(m, index) in EnvironmentMarkersAverageH"
+                            v-for="(m, index) in EnvironmentMarkersAverage"
                             :position="{lat:m.Latitude, lng:m.Longitude}"
                             :icon="{ url: require('../assets/environment.png')}"
                             @mouseover="showEnvironmentInfo = index;"
@@ -142,63 +157,6 @@
                         </div>
                     </gmap-info-window>
                 </GmapMarker>
-                <GmapMarker :key="index + 'd'"
-                            v-for="(m, index) in EnvironmentMarkersAverageDay"
-                            :position="{lat:m.Latitude, lng:m.Longitude}"
-                            :icon="{ url: require('../assets/environment.png')}"
-                            @mouseover="showEnvironmentInfo = index;"
-                            @mouseout="showEnvironmentInfo = null">
-                    <gmap-info-window :opened="showEnvironmentInfo == index">
-                        <div class="info-window">
-                            <div v-if="m.AverageTemperature">
-                                <label class="sekcija"> Temperature </label>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average air temeprature: </label>
-                                    {{m.AverageTemperature.AverageAirTemperature}} °C
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average road temperature: </label>
-                                    {{m.AverageTemperature.AverageRoadTemperature}} °C
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Based on: </label>
-                                    {{m.AverageTemperature.DataCount}} values
-                                </span>
-                            </div>
-                            <div v-if="m.AverageAirQuality">                       
-                                <label class="sekcija"> Air quality </label>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average CO: </label>
-                                    {{m.AverageAirQuality.AverageCO}} mg/m^3
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average Non Metanic HydroCarbons: </label>
-                                    {{m.AverageAirQuality.AverageNMHC}} microg/m^3
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average Benzene: </label>
-                                    {{m.AverageAirQuality.AverageBenzene}} microg/m^3
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average NOx: </label>
-                                    {{m.AverageAirQuality.AverageNOx}} ppb
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average NO2: </label>
-                                    {{m.AverageAirQuality.AverageNO2}} microg/m^3
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Average Relative Humidity: </label>
-                                    {{m.AverageAirQuality.AverageRelativeHumidity}} %
-                                </span>
-                                <span class="stavka"> 
-                                    <label class="naziv"> Based on: </label>
-                                    {{m.AverageAirQuality.DataCount}} values
-                                </span>
-                            </div>
-                        </div>
-                    </gmap-info-window>
-                </GmapMarker>
                 <GmapMarker :key="index + 't'"
                             v-for="(m, index) in TrafficMarkers"
                             :position="{lat:m.Latitude, lng:m.Longitude}"
@@ -218,6 +176,21 @@
                         </div>
                     </gmap-info-window>
                 </GmapMarker>
+                <GmapMarker :key="index"
+                            v-for="(m, index) in AllMarkers"
+                            :position="{lat:m.Latitude, lng:m.Longitude}"
+                            :icon="{ url: require('../assets/environment.png')}"
+                            @mouseover="showEnvironmentInfo = index;"
+                            @mouseout="showEnvironmentInfo = null">
+                    <gmap-info-window :opened="showEnvironmentInfo == index">
+                        <div class="info-window">
+                            <span class="stavka"> 
+                                <label class="naziv"> Reference number: </label>
+                                {{index + 1}}
+                            </span>
+                        </div>
+                    </gmap-info-window>
+                </GmapMarker>
                 <GmapCircle v-for="(pin, index) in TrafficMarkers"
                             :key="index + 'c'"
                             :center="{lat:pin.Latitude, lng:pin.Longitude}"
@@ -226,6 +199,56 @@
                             :options="{fillColor:'red',fillOpacity:0.2}">
                 </GmapCircle>
             </GmapMap>
+        </div>
+        <div class="tabele" v-if="searchOption == 5 && isDataLoaded && wasSearched">
+            <table class="table table-dark tabela1">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Station name</th>
+                        <th scope="col">Timestamp</th>
+                        <th scope="col">Air temperature</th>
+                        <th scope="col">Road temperature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(marker, i) in AllMarkersTemperatures" :key="i+'tab'">
+                        <th scope="row">{{marker.Id}}</th>
+                        <td>{{marker.StationName}}</td>
+                        <td>{{marker.Timestamp | showTime}}</td>
+                        <td>{{marker.AirTemperature}}</td>
+                        <td>{{marker.RoadTemperature}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-dark tabela2">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Station name</th>
+                        <th scope="col">Timestamp</th>
+                        <th scope="col">CO</th>
+                        <th scope="col">NMHC</th>
+                        <th scope="col">Benzene</th>
+                        <th scope="col">NOx</th>
+                        <th scope="col">NO2</th>
+                        <th scope="col">Relative humidity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(marker, i) in AllMarkersAirQualities" :key="i+'tab'">
+                        <th scope="row">{{marker.Id}}</th>
+                        <td>{{marker.StationName}}</td>
+                        <td>{{marker.Timestamp | showTime}}</td>
+                        <td>{{marker.CO}}</td>
+                        <td>{{marker.NMHC}}</td>
+                        <td>{{marker.Benzene}}</td>
+                        <td>{{marker.NOx}}</td>
+                        <td>{{marker.NO2}}</td>
+                        <td>{{marker.RelativeHumidity}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -240,61 +263,158 @@ export default({
     },
     data(){
         return{
-            radius: 300,
-            showEnvironmentInfo: null,
-            showTrafficInfo: null,
-            environment: true,
-            traffic: true,
-            environmentSelect: 1
+            traffic: false,
+            searchOption: 6,
+            location: {lat:43.32050626745787, lng:21.90057819947256},
+            date: {year: 0, month: 0, day: 0, hour: 0},
+            radius: "100",
+            circle: null,
+            showEnvironmentInfo : null,
+            showTrafficInfo : null,
+            wasSearched: false
         }
     },
     computed:
     {
+        options()
+        {
+            return [
+                "Newest data", 
+                "Current average per hour", 
+                "Current average per day", 
+                "Average per selected hour",
+                "Average per selected day",
+                "All",
+                "None"
+            ]
+        },
+        isButtonAvailable()
+        {
+            return this.searchOption < 6 || this.traffic
+        },
         isDataLoaded()
         {
             return this.$store.state.is_data_loaded
         },
         EnvironmentMarkersNewest()
         {
-            if(!this.environment || this.environmentSelect != 1)
+            if(this.searchOption != 0 || !this.isDataLoaded || !this.wasSearched)
                 return []
-            return this.$store.state.environment_data_list_newest
+            return this.$store.state.filter_loc_newest
         },
-        EnvironmentMarkersAverageH()
+        EnvironmentMarkersAverage()
         {
-            if(!this.environment || this.environmentSelect != 2)
+            if(this.searchOption < 1 || this.searchOption > 4 || !this.isDataLoaded || !this.wasSearched)
                 return []
-            return this.$store.state.environment_data_list_average_h
-        },
-        EnvironmentMarkersAverageDay()
-        {
-            if(!this.environment || this.environmentSelect != 3)
-                return []
-            return this.$store.state.environment_data_list_average_day
+            return this.$store.state.filter_loc_average
         },
         TrafficMarkers()
         {
-            if(!this.traffic)
+            if(!this.traffic || !this.isDataLoaded || !this.wasSearched)
                 return []
-            return this.$store.state.location_traffic_data_list
+            return this.$store.state.loc_traffic
+        },
+        AllMarkers()
+        {
+            if(this.searchOption != 5 || !this.isDataLoaded || !this.wasSearched)
+                return []
+            return this.$store.state.filter_loc_all
+        },
+        AllMarkersTemperatures()
+        {
+            var arr = []
+            this.AllMarkers.forEach((el, ind) => {
+                el.Temperatures.forEach(temp =>
+                {             
+                    arr.push({
+                        Id: ind + 1,
+                        StationName: temp.StationName,
+                        Timestamp: temp.Timestamp,
+                        AirTemperature: temp.AirTemperature,
+                        RoadTemperature: temp.RoadTemperature
+                    })
+                })
+            });
+            return arr;
+        },
+        AllMarkersAirQualities()
+        {
+            var arr = []
+            this.AllMarkers.forEach((el, ind) => {
+                el.AirQualities.forEach(air =>
+                {                   
+                    arr.push({
+                        Id: ind + 1,
+                        StationName: air.StationName,
+                        Timestamp: air.Timestamp,
+                        CO: air.CO,
+                        NMHC: air.NMHC,
+                        Benzene: air.Benzene,
+                        NOx: air.NOx,
+                        NO2: air.NO2,
+                        RelativeHumidity: air.RelativeHumidity
+                    })
+                })
+            });
+            return arr;
         }
     },
     methods:
     {
-        onSelectChange()
+        clearSearch()
         {
-            if(this.environmentSelect == 1 && !this.$store.state.environment_data_list_newest)
-                this.$store.dispatch("getNewest")
-            if(this.environmentSelect == 2 && !this.$store.state.environment_data_list_average_h)
-                this.$store.dispatch("getAverageH")
-            if(this.environmentSelect == 3 && !this.$store.state.environment_data_list_average_day)
-                this.$store.dispatch("getAverageDay")
+            this.wasSearched = false
+        },
+        mark(event)
+        {
+            this.location.lat = event.latLng.lat()
+            this.location.lng = event.latLng.lng()
+        },
+        redrawMap()
+        {
+            this.$store.state.is_data_loaded = false
+            this.$store.state.is_data_loaded = true
+        },
+        search()
+        {
+            this.wasSearched = true
+            var locDTO = {
+                Latitude : this.location.lat,
+                Longitude : this.location.lng,
+                RadiusMeters : parseFloat(this.radius)
+            }
+
+            if(this.searchOption == 0)
+                this.$store.dispatch("getLocNewest", locDTO)
+            else if(this.searchOption == 1)
+                this.$store.dispatch("getLocAverageH", locDTO)
+            else if(this.searchOption == 2)
+                this.$store.dispatch("getLocAverageDay", locDTO)
+            else if(this.searchOption == 5)
+                this.$store.dispatch("getLocAll", locDTO)
+            else if(this.searchOption == 3 || this.searchOption == 4)
+            {
+                var avgDTO = {
+                    LocationInfo: locDTO,
+                    PerHour: this.searchOption == 3 ? true : false,
+                    Timestamp: this.date.year + "-" + this.convertToTwoChar(this.date.month) + "-"
+                                + this.convertToTwoChar(this.date.day) + "T"
+                                + (this.searchOption == 3 ? this.convertToTwoChar(this.date.hour) : "00")
+                                + ":00:00"
+                }
+                this.$store.dispatch("getLocAverage", avgDTO)
+            }
+
+            if(this.traffic)
+                this.$store.dispatch("getLocTraffic", locDTO)
+        },
+        convertToTwoChar(val)
+        {
+            var int = parseInt(val)
+            if(int < 10)
+                return "0" + val
+            return val
         }
-    },
-    created()
-    {
-        this.$store.dispatch("getNewest")
-        this.$store.dispatch("getTraffic")
     }
 })
 </script>
@@ -311,23 +431,25 @@ export default({
         padding-top: 30px;
     }
 
+    .mapa
+    {
+        width: 96%;
+        height: 700px;
+    }
+
     .radius
     {
         display: flex;
         flex-direction: row;
-        width: 100%;
+        width: 90%;
         margin-bottom:20px;
         padding-left:20px;
         align-items: center;
         justify-content: flex-start;
-    }
-
-    .labela
-    {
-        font-weight: 600;
-        font-size: 18px;
-        margin-right: 15px;
-        margin-bottom: 0px;
+        background-color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 10px;
     }
 
     .labelica
@@ -337,26 +459,44 @@ export default({
         margin-left: 15px;
     }
 
-    .mapa
+    .broj
     {
-        width: 96%;
-        height: 700px;
+        width: 80px;
     }
 
-    .info-window
+    .selekt
     {
+        padding:5px;
+    }
+
+    .dugme
+    {
+        margin-left: 30px;
+    }
+
+    .tabele
+    {
+        width: 96%;
+        padding-top: 30px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: flex-start;
         justify-content: space-evenly;
     }
 
-    .no-data
+    .table-dark th
     {
-        font-size: 24px;
-        font-style: italic;
-        margin-top: 20px;
-        color: grey;
+        color: white;
+    }
+
+    .tabela1
+    {
+        width:45%;
+    }
+
+    .tabela2
+    {
+        width:52%;
     }
 
     .stavka
@@ -380,10 +520,5 @@ export default({
         margin-top: 10px;
         font-size: 16px;
         font-weight: 700;
-    }
-
-    .selekt
-    {
-        padding:5px;
     }
 </style>

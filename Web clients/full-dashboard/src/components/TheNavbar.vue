@@ -5,6 +5,12 @@
             <router-link :to = "'/'" class="navbar-item">
                 <h1 class="title is-4 naziv">RoadMonitor</h1>
             </router-link>
+            <router-link :to = "'/location-filter'" class="navbar-item">
+                <h5 class="is-4 naziv">Location filtering</h5>
+            </router-link>
+            <router-link :to = "'/timeframe-filter'" class="navbar-item">
+                <h5 class="is-4 naziv">Timeframe filtering</h5>
+            </router-link>
         </div>
     </nav>
   </div>
@@ -46,6 +52,7 @@
     .naziv
     {
         margin-top: 7px;
+        color: black;
     }
     @media only screen and (max-width: 1088px)
     {
