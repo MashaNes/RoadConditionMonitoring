@@ -22,28 +22,6 @@ export default new Vuex.Store({
 
     },
     actions: {
-        /*getFilterStation({commit}, payload)
-        {
-            fetch("http://"+this.state.backend_host+":"+this.state.backend_port+"/api/data/get-filtered-station", {
-                method: 'POST',
-                mode: "cors",
-                headers: {
-                    "Content-type" : "application/json",
-                },
-                body: JSON.stringify(payload)
-            }).then(response => {
-                if(response.ok) {
-                    response.json().then(data => {
-                        this.state.temp_data = data
-                        this.state.is_temp_data_loaded = true
-                    })
-                }
-                else {
-                    this.state.is_temp_data_loaded = true
-                    console.log(response)
-                }
-            })
-        },*/
         getVehicleData({commit}, payload)
         {
             this.state.first_enter = false
