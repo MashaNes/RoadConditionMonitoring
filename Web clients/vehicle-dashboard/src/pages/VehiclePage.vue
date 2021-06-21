@@ -18,7 +18,7 @@
                      :center="{lat:43.32050626745787, lng:21.90057819947256}"
                      :zoom="14"
                      style="width: 100%; height: 700px">
-                <GmapMarker :position="{lat:vehicleData.Longitude, lng:vehicleData.Latitude}"
+                <GmapMarker :position="{lat:vehicleData.Latitude, lng:vehicleData.Longitude}"
                             :icon="{ url: require('../assets/car.png')}"
                             @mouseover="showVehicleInfo = true;"
                             @mouseout="showVehicleInfo = false">
@@ -100,6 +100,32 @@
                         </div>
                     </gmap-info-window>
                 </GmapMarker>
+                <GmapMarker :key="index + 't'"
+                            v-for="(m, index) in TrafficMarkers"
+                            :position="{lat:m.Latitude, lng:m.Longitude}"
+                            :icon="{ url: require('../assets/traffic.png')}"
+                            @mouseover="showTrafficInfo = index;"
+                            @mouseout="showTrafficInfo = null">
+                    <gmap-info-window :opened="showTrafficInfo == index">
+                        <div class="info-window">
+                            <span class="stavka"> 
+                                <label class="naziv"> Vehicle count: </label>
+                                {{m.TrafficData.VehicleNumber}}
+                            </span>
+                            <span class="stavka"> 
+                                <label class="naziv"> Average speed:  </label>
+                                {{m.TrafficData.AverageSpeed}}  km/h
+                            </span>
+                        </div>
+                    </gmap-info-window>
+                </GmapMarker>
+                <GmapCircle v-for="(pin, index) in TrafficMarkers"
+                            :key="index + 'c'"
+                            :center="{lat:pin.Latitude, lng:pin.Longitude}"
+                            :radius="pin.Radius"
+                            :visible="true"
+                            :options="{fillColor:'red',fillOpacity:0.2}">
+                </GmapCircle>
             </GmapMap>
         </div>
     </div>
@@ -118,8 +144,10 @@ export default({
             radius: 300,
             showVehicleInfo: false,
             showEnvironmentInfo: null,
+            showTrafficInfo: null,
             environment: true,
-            traffic: true
+            traffic: true,
+            intervalFunc: null
         }
     },
     computed:
@@ -148,6 +176,33 @@ export default({
                 return []
             return this.$store.state.location_traffic_data_list
         }
+    },
+    methods:
+    {
+        getData()
+        {
+            this.$store.dispatch("getVehicleData", 
+            {
+                id: this.vehicleId,
+                radius: this.radius
+            })
+        },
+        leavePage(event)
+        {
+            event.preventDefault()
+            clearInterval(this.intervalFunc)
+            event.returnValue = ''
+        }
+    },
+    created()
+    {
+        this.getData()
+        window.addEventListener('beforeunload', this.leavePage)
+        this.intervalFunc = setInterval(this.getData, 5000)
+    },
+    beforeDestroy()
+    {
+        clearInterval(this.intervalFunc)
     }
 })
 </script>
