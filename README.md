@@ -31,4 +31,4 @@ and regarding traffic. It also offers a SignalR connection to clients wishing to
 <b><ins>Vehicle monitoring gateway</ins></b> is an entry point for clients wanting the information about road conditions in an area surrounding a certain vehicle.
 It provides an API for getting relevant information based on a provided vehicle id and a radius of the area of interest.  
 <br/>
-The visual representation and funtionality of the web dashboards can be seen in the "Web clients" folder  
+The visual representation and functionality of the web dashboards can be seen in the "Web clients" folder  
