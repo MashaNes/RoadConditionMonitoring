@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from "../router/index"
+import roadMonitorHub from "../road-monitor-hub"
 
 Vue.use(Vuex)
+Vue.use(roadMonitorHub)
 
 export default new Vuex.Store({
     state: {

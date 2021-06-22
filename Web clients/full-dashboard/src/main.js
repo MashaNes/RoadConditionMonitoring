@@ -29,6 +29,9 @@ Vue.filter("round", function(value) {
   return value.toFixed(4)
 })
 
+import roadMonitorHub from './road-monitor-hub'
+Vue.use(roadMonitorHub)
+
 Vue.config.productionTip = false
 
 new Vue({

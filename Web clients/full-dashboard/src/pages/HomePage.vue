@@ -296,12 +296,133 @@ export default({
                 this.$store.dispatch("getAverageH")
             if(this.environmentSelect == 3 && !this.$store.state.environment_data_list_average_day)
                 this.$store.dispatch("getAverageDay")
+        },
+        subscribeToEvents() 
+        {
+            this.$roadMonitorHub.JoinNewestGroup()
+            this.$roadMonitorHub.JoinAverageHGroup()
+            this.$roadMonitorHub.JoinAverageDayGroup()
+            this.$roadMonitorHub.JoinTrafficGroup()
+            this.$roadMonitorHub.$on('new_newest', this.onNewNewestData)
+            this.$roadMonitorHub.$on('new_averageH', this.onNewHData)
+            this.$roadMonitorHub.$on('new_averageDay', this.onNewDayData)
+            this.$roadMonitorHub.$on('new_traffic', this.onNewTrafficData)
+            window.addEventListener('beforeunload', this.leavePage)
+        },
+        onNewNewestData(data)
+        {
+            this.$store.state.environment_data_list_newest = data.map(x => {
+                return{             
+                    AirQuality: x.airQuality ? {
+                        Benzene: x.airQuality.benzene,
+                        CO: x.airQuality.co,
+                        NO2: x.airQuality.nO2,
+                        NOx: x.airQuality.nOx,
+                        NMHC: x.airQuality.nmhc,
+                        RelativeHumidity: x.airQuality.relativeHumidity,
+                        StationName: x.airQuality.stationName,
+                        Timestamp: x.airQuality.timestamp
+                    } : null,
+                    Latitude: x.latitude,
+                    Longitude: x.longitude,
+                    Temperature: x.temperature ? {
+                        AirTemperature: x.temperature.airTemperature,
+                        RoadTemperature: x.temperature.roadTemperature,
+                        StationName: x.temperature.stationName,
+                        Timestamp: x.temperature.timestamp
+                    } : null
+                }
+            })
+        },
+        onNewHData(data)
+        {
+            this.$store.state.environment_data_list_average_h = data.map(x => {
+                return{             
+                    AverageAirQuality: x.averageAirQuality ? {
+                        AverageBenzene: x.averageAirQuality.averageBenzene,
+                        AverageCO: x.averageAirQuality.averageCO,
+                        AverageNO2: x.averageAirQuality.averageNO2,
+                        AverageNOx: x.averageAirQuality.averageNOx,
+                        AverageNMHC: x.averageAirQuality.averageNMHC,
+                        AverageRelativeHumidity: x.averageAirQuality.averageRelativeHumidity,
+                        DataCount: x.averageAirQuality.dataCount
+                    } : null,
+                    Latitude: x.latitude,
+                    Longitude: x.longitude,
+                    AverageTemperature: x.averageTemperature ? {
+                        AverageAirTemperature: x.averageTemperature.averageAirTemperature,
+                        AverageRoadTemperature: x.averageTemperature.averageRoadTemperature,
+                        DataCount: x.averageTemperature.dataCount
+                    } : null
+                }
+            })
+        },
+        onNewDayData(data)
+        {
+            this.$store.state.environment_data_list_average_day = data.map(x => {
+                return{             
+                    AverageAirQuality: x.averageAirQuality ? {
+                        AverageBenzene: x.averageAirQuality.averageBenzene,
+                        AverageCO: x.averageAirQuality.averageCO,
+                        AverageNO2: x.averageAirQuality.averageNO2,
+                        AverageNOx: x.averageAirQuality.averageNOx,
+                        AverageNMHC: x.averageAirQuality.averageNMHC,
+                        AverageRelativeHumidity: x.averageAirQuality.averageRelativeHumidity,
+                        DataCount: x.averageAirQuality.dataCount
+                    } : null,
+                    Latitude: x.latitude,
+                    Longitude: x.longitude,
+                    AverageTemperature: x.averageTemperature ? {
+                        AverageAirTemperature: x.averageTemperature.averageAirTemperature,
+                        AverageRoadTemperature: x.averageTemperature.averageRoadTemperature,
+                        DataCount: x.averageTemperature.dataCount
+                    } : null
+                }
+            })
+        },
+        onNewTrafficData(data)
+        {
+            this.$store.state.location_traffic_data_list = data.locationTrafficData.map(x => {
+                return{
+                    Latitude: x.latitude,
+                    Longitude: x.longitude,
+                    Radius: x.radius,
+                    TrafficData: {
+                        AverageSpeed: x.trafficData.averageSpeed,
+                        VehicleNumber: x.trafficData.vehicleNumber
+                    }
+                }
+            })
+            this.$store.state.general_traffic_data = {
+                AverageSpeed: data.globalTrafficData.averageSpeed,
+                VehicleNumber: data.globalTrafficData.vehicleNumber
+            }
+        },
+        clearSignalRSubscription() {
+            this.$roadMonitorHub.LeaveNewestGroup()
+            this.$roadMonitorHub.LeaveAverageHGroup()
+            this.$roadMonitorHub.LeaveAverageDayGroup()
+            this.$roadMonitorHub.LeaveTrafficGroup()
+            this.$roadMonitorHub.$off('new_newest')
+            this.$roadMonitorHub.$off('new_averageH')
+            this.$roadMonitorHub.$off('new_averageDay')
+            this.$roadMonitorHub.$off('new_traffic')
+            window.removeEventListener('beforeunload', this.leavePage)
+        },
+        leavePage(event) {
+            event.preventDefault()
+            this.clearSignalRSubscription()
+            event.returnValue = ''
         }
     },
     created()
     {
         this.$store.dispatch("getNewest")
         this.$store.dispatch("getTraffic")
+        this.subscribeToEvents()
+    },
+    beforeDestroy() {
+      this.clearSignalRSubscription()
     }
 })
 </script>
