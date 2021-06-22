@@ -227,6 +227,9 @@
                 </GmapCircle>
             </GmapMap>
         </div>
+        <div class="radius statistika" v-if="isDataLoaded && GeneralTrafficData">
+            Total number of vehicles is {{GeneralTrafficData.VehicleNumber}} and their average speed is {{GeneralTrafficData.AverageSpeed}}
+        </div>
     </div>
 </template>
 
@@ -277,6 +280,10 @@ export default({
             if(!this.traffic)
                 return []
             return this.$store.state.location_traffic_data_list
+        },
+        GeneralTrafficData()
+        {
+            return this.$store.state.general_traffic_data
         }
     },
     methods:
@@ -385,5 +392,11 @@ export default({
     .selekt
     {
         padding:5px;
+    }
+
+    .statistika
+    {
+        margin-top: 10px;
+        font-size: 20px;
     }
 </style>
