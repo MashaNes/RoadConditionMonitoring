@@ -32,18 +32,11 @@
 	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;timestep_time, vehicle_angle, vehicle_id, vehicle_lane, vehicle_pos, vehicle_slope, vehicle_speed, vehicle_type, vehicle_x, vehicle_y  
 	&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;// SUMO simulator used (https://www.eclipse.org/sumo/), with FCD output (https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html)  
 	&ensp;&ensp;&ensp;}  
- }  
- <br/>
- Kafka instance located on localhost:29092 should have topics "Temperature" and "AirQuality" with no key and string value and "VehicleLocation" with string key and string value  
- &ensp;&ensp;&ensp;Connection can be initialized through Kafka GUI tool - Offset Explorer (https://kafkatool.com/download.html)  
- &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Zookeeper Port: 22181  
- &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Zookeeper Host: localhost  
- &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - Advanced/Bootstrap servers: localhost:29092  
+ }   
  <br/>
  cassandra1 should have the script from repo/Cassandra/Temperature.txt and repo/Cassandra/Traffic.txt executed in cqlsh  
  cassandra2 should have the script from repo/Cassandra/AirQuality.txt and repo/Cassandra/VehicleLocation.txt executed in cqlsh  
  It would be best for each microservice to have a seperate cassandra instance, but due to the lack of available RAM it is possible to bundle them up together (like here)  
  <br/>
  Run "docker compose build" and "docker compose up" in the directory where "docker-compose.yml" is located  
- Edit the ip address in repo/Microservices/SparkProcessing/src/main/java/SparkProcessing.java to fit your private ip address and follow the instructions at repo/Microservices/SparkProcessing/start.txt to start the Spark instance  
  

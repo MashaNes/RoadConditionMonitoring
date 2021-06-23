@@ -1,0 +1,6 @@
+FROM bde2020/spark-java-template:3.1.1-hadoop3.2
+
+ENV SPARK_APPLICATION_JAR_NAME SparkProcessing-1.0-SNAPSHOT-jar-with-dependencies
+ENV SPARK_APPLICATION_MAIN_CLASS SparkProcessing
+ENV SPARK_APPLICATION_ARGS ""
+ENV ENABLE_INIT_DAEMON false
